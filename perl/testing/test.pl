@@ -2,7 +2,6 @@
 use strict;
 use lib '../Whapps-CatalogAPI/lib';
 use Whapps::CatalogAPI;
-use Data::Dumper;
 
 # this script will test every method
 # it will create actual test orders in the system
@@ -35,29 +34,31 @@ print "The following sockets are available for the $domain->{account_name} accou
 my $socket_id;
 foreach my $socket (@{ $domain->{sockets}->{Socket} })
 {
-    print "got socket: $socket->{socket_name}\n";
+    print "\t$socket->{socket_name} (socket_id: $socket->{socket_id})\n";
     $socket_id = $socket->{socket_id};
 }
 
+print "\nRetreiving categories for socket_id $socket_id...\n";
 my $catalog_breakdown_response = $api->catalog_breakdown(
     socket_id => $socket_id,
     is_flat => 0 );
 
 foreach my $category (@{ $catalog_breakdown_response->{categories}->{Category} })
 {
-    process_category($category, 0);
+    process_category($category, 1);
 }
 
 sub process_category
 {
     my ($category, $depth) = @_;
-    print "\t"x$depth . "found category: $category->{name}\n";
+    print "\t"x$depth . "$category->{name}\n";
     foreach my $child (@{ $category->{children}->{Category} })
     {
         process_category($child, ++$depth);
     }
 }
 
+print "\nSearching the catalog for the word \"card\"...\n";
 my $search_catalog_response = $api->search_catalog(
     socket_id => $socket_id,
     search => 'card' );
@@ -65,17 +66,26 @@ my $search_catalog_response = $api->search_catalog(
 my $catalog_item;
 foreach my $item (@{ $search_catalog_response->{items}->{CatalogItem} })
 {
-    print "found item: $item->{name}\n";
+    print "\tFound match: $item->{name}\n";
     $catalog_item = $item;
 }
 
+print "\nRetrieving the full description for catalog_item_id $catalog_item->{catalog_item_id}\n";
 my $view_item_response = $api->view_item(
     socket_id => $socket_id,
     catalog_item_id => $catalog_item->{catalog_item_id} );
 
 my $item = $view_item_response->{item};
-print "viewing item: $item->{name}\n$item->{description}\n";
+if ($item->{description})
+{
+    print "\tFound it!\n";
+}
+else
+{
+    print "\tThe description could not be retrieved.\n";
+}
 
+print "\nPlacing an order for catalog_item_id $catalog_item->{catalog_item_id}...\n";
 my $order_number = $api->order_place(
     
     socket_id => $socket_id,
@@ -100,8 +110,9 @@ my $order_number = $api->order_place(
         "catalog_price" => $item->{catalog_price},
         }]
 );
-print "the order was created with the order_number: $order_number\n";
+print "\tThe order was created with the order_number: $order_number\n";
 
+print "\nRetrieving all order placed by this script...\n";
 my $order_list_response = $api->order_list(
     external_user_id => 'johndoe123',
     per_page => 10,
@@ -109,121 +120,128 @@ my $order_list_response = $api->order_list(
     );
 
 my $pager = $order_list_response->{pager};
-print "Found $pager->{result_count} orders. Currently on page $pager->{page} of $pager->{last_page}.\n";
+print "\tFound $pager->{result_count} orders. Currently on page $pager->{page} of $pager->{last_page}.\n";
 
 my $orders = $order_list_response->{orders}->{OrderSummary};
 my $order_number_from_order_place;
 foreach my $order (@$orders)
 {
     $order_number_from_order_place = $order->{order_number};
-    print "found order $order->{order_number} which was placed on $order->{date_placed}\n";
+    print "\tOrder $order->{order_number} was placed on $order->{date_placed}\n";
 }
 
 ## tracking
-
-my $order = $api->order_track( order_number => $order_number_from_order_place );
-
-print "this is an order for $order->{first_name} $order->{last_name}\n";
-
-foreach my $order_item (@{ $order->{items}->{OrderItem} })
+if ($order_number_from_order_place)
 {
-    print "found order item: $order_item->{name} ($order_item->{order_item_status})\n";
+    print "\nRetrieving tracking information for order_number $order_number_from_order_place...\n";
+    my $order = $api->order_track( order_number => $order_number_from_order_place );
+
+    print "\tThis is an order for $order->{first_name} $order->{last_name}\n";
+    print "\tItems:\n";
+    foreach my $order_item (@{ $order->{items}->{OrderItem} })
+    {
+        print "\t\t$order_item->{name} (status: $order_item->{order_item_status})\n";
+    }
+    
+    print "\tFulfillments:\n";
+    foreach my $fulfillment (@{ $order->{fulfillments}->{Fulfillment} })
+    {
+        print "\t\tFound a fulfillment created on $fulfillment->{fulfillment_date}\n";
+        print "\t\t\tMetadata:\n";
+        foreach my $metadata (@{ $fulfillment->{metadata}->{Meta} })
+        {
+            print "\t\t\t\t$metadata->{key}: $metadata->{value}$metadata->{uri}\n";
+        }
+        print "\t\t\tItems:\n";
+        foreach my $fulfillment_item (@{ $fulfillment->{items}->{FulfillmentItem} })
+        {
+            print "\t\t\t\t$fulfillment_item->{name}\n";
+        }
+    }
 }
-
-foreach my $fulfillment (@{ $order->{fulfillments}->{Fulfillment} })
+else
 {
-    print "found fulfillment created on $fulfillment->{fulfillment_date}\n";
-    foreach my $metadata (@{ $fulfillment->{metadata}->{Meta} })
-    {
-        print "\t$metadata->{key}: $metadata->{value} [$metadata->{uri}]\n";
-    }
-    foreach my $fulfillment_item (@{ $fulfillment->{items}->{FulfillmentItem} })
-    {
-        print "\tfulfillment includes the item: $fulfillment_item->{name}\n";
-    }
+    print "Cannot run tracking tests...a test order is not yet available in your account.\n";
+    print "\tIf an order was just created, please wait a few minutes then re-run this script.\n";
 }
 
 # carts!
-
-my $cart;
-
-$api->cart_unlock(
-    socket_id => $socket_id,
-    external_user_id => 'johndoe123',
-    );
-
-$api->cart_empty(
-    socket_id => $socket_id,
-    external_user_id => 'johndoe123',
-    catalog_item_id => $catalog_item->{catalog_item_id},
-    quantity => 2
-    );
-
-$cart = $api->cart_view(
-    socket_id => $socket_id,
-    external_user_id => 'johndoe123',
-    );
-print Dumper($cart);
-
-$api->cart_set_address(
-    socket_id => $socket_id,
-    external_user_id => 'johndoe123',
+if ($catalog_item)
+{
+    my $cart;
     
-    first_name => 'John',
-    last_name => 'Doe',
-    address_1 => '123 Test St.',
-    address_2 => 'Apt. B',
-    city => 'Cincinnati',
-    state_province => 'OH',
-    postal_code => '00000',
-    country => 'US',
-    email => 'johndoe123@example.com',
-    phone_number => '123-555-6789',
-    );
+    print "\nTesting cart methods...\n";
 
-$api->cart_set_item_quantity(
-    socket_id => $socket_id,
-    external_user_id => 'johndoe123',
-    catalog_item_id => $catalog_item->{catalog_item_id},
-    quantity => 5
-    );
+    $api->cart_unlock(
+        socket_id => $socket_id,
+        external_user_id => 'johndoe123',
+        );
 
-$api->cart_add_item(
-    socket_id => $socket_id,
-    external_user_id => 'johndoe123',
-    catalog_item_id => $catalog_item->{catalog_item_id},
-    quantity => 3
-    );
-    
-$api->cart_remove_item(
-    socket_id => $socket_id,
-    external_user_id => 'johndoe123',
-    catalog_item_id => $catalog_item->{catalog_item_id},
-    quantity => 2
-    );
+    $api->cart_empty(
+        socket_id => $socket_id,
+        external_user_id => 'johndoe123',
+        catalog_item_id => $catalog_item->{catalog_item_id},
+        quantity => 2
+        );
 
-$cart = $api->cart_view(
-    socket_id => $socket_id,
-    external_user_id => 'johndoe123',
-    );
-print Dumper($cart);
+    $api->cart_set_address(
+        socket_id => $socket_id,
+        external_user_id => 'johndoe123',
 
-$api->cart_validate(
-    socket_id => $socket_id,
-    external_user_id => 'johndoe123',
-    locked => 1,
-    );
+        first_name => 'John',
+        last_name => 'Doe',
+        address_1 => '123 Test St.',
+        address_2 => 'Apt. B',
+        city => 'Cincinnati',
+        state_province => 'OH',
+        postal_code => '00000',
+        country => 'US',
+        email => 'johndoe123@example.com',
+        phone_number => '123-555-6789',
+        );
 
-$cart = $api->cart_view(
-    socket_id => $socket_id,
-    external_user_id => 'johndoe123',
-    );
-print Dumper($cart);
+    $api->cart_set_item_quantity(
+        socket_id => $socket_id,
+        external_user_id => 'johndoe123',
+        catalog_item_id => $catalog_item->{catalog_item_id},
+        quantity => 5
+        );
 
-my $cart_order_number = $api->cart_order_place(
-    socket_id => $socket_id,
-    external_user_id => 'johndoe123',
-    cart_version => $cart->{cart_version},
-    );
-print "created order: $cart_order_number\n";
+    $api->cart_add_item(
+        socket_id => $socket_id,
+        external_user_id => 'johndoe123',
+        catalog_item_id => $catalog_item->{catalog_item_id},
+        quantity => 3
+        );
+
+    $api->cart_remove_item(
+        socket_id => $socket_id,
+        external_user_id => 'johndoe123',
+        catalog_item_id => $catalog_item->{catalog_item_id},
+        quantity => 2
+        );
+
+    $api->cart_validate(
+        socket_id => $socket_id,
+        external_user_id => 'johndoe123',
+        locked => 1,
+        );
+
+    $cart = $api->cart_view(
+        socket_id => $socket_id,
+        external_user_id => 'johndoe123',
+        );
+
+    my $cart_order_number = $api->cart_order_place(
+        socket_id => $socket_id,
+        external_user_id => 'johndoe123',
+        cart_version => $cart->{cart_version},
+        );
+    print "\tCreated order via the cart with order_number: $cart_order_number\n";
+}
+else
+{
+    print "Cannot run cart tests...a test order is not yet available in your account.\n";
+    print "\tIf an order was just created, please wait a few minutes then re-run this script.\n";
+}
     

@@ -71,8 +71,6 @@ sub new
         $AGENT->timeout(30);
     }
     
-    warn Data::Dumper::Dumper($self);
-    
     return $self;
 }
 
