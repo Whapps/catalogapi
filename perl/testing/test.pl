@@ -178,16 +178,16 @@ if ($catalog_item)
     print "\nTesting cart methods...\n";
     
     eval {
-        $api->cart_unlock(
-            socket_id => $socket_id,
-            external_user_id => 'johndoe123',
-            );
-
         $api->cart_empty(
             socket_id => $socket_id,
             external_user_id => 'johndoe123',
             catalog_item_id => $catalog_item->{catalog_item_id},
             quantity => 2
+            );
+        
+        $api->cart_unlock(
+            socket_id => $socket_id,
+            external_user_id => 'johndoe123',
             );
     };
     warn $@ if $@;
