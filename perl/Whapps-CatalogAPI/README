@@ -16,6 +16,8 @@ To install this module type the following:
 
 DEPENDENCIES
 
+perl 5.14.0 or later.
+
 This module requires these other modules and libraries:
 
     LWP::UserAgent
