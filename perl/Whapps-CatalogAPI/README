@@ -1,16 +1,9 @@
-Whapps-CatalogAPI version 0.01
-==============================
+Whapps-CatalogAPI version 1.0
+=============================
 
-The README is used to introduce the module and provide instructions on
-how to install the module, any machine dependencies it may have (for
-example C compilers and installed libraries) and any other information
-that should be provided before the module is installed.
+This library is the perl interface to CatalogAPI.com.
 
-A README file is required for CPAN modules since CPAN extracts the
-README file from a module distribution so that people browsing the
-archive can use it get an idea of the modules uses. It is usually a
-good idea to provide version information here so that people can
-decide whether fixes for the module are worth downloading.
+The documentation for this module is in the pod.
 
 INSTALLATION
 
@@ -25,13 +18,19 @@ DEPENDENCIES
 
 This module requires these other modules and libraries:
 
-  blah blah blah
+    LWP::UserAgent
+    LWP::Protocol::https
+    URI::Escape
+    JSON
+    Data::UUID
+    Digest::HMAC_SHA1
+    MIME::Base64
+    DateTime
+    Carp
 
 COPYRIGHT AND LICENCE
 
-Put the correct copyright and licence information here.
-
-Copyright (C) 2013 by Ken Prows
+Copyright (C) 2013 by Whapps LLC
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.18.0 or,
