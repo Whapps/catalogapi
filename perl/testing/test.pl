@@ -17,6 +17,11 @@ use Whapps::CatalogAPI;
 my $SECRET_KEY = $ENV{catalogapi_key};
 my $ENDPOINT = $ENV{catalogapi_endpoint}; # yourdomain.dev.catalogapi.com
 
+unless ($SECRET_KEY && $ENDPOINT)
+{
+    die 'You must first set the "catalogapi_key" and "catalogapi_endpoint" environment variables before running this script.';
+}
+
 if ($ENDPOINT =~ /\.prod\./i)
 {
     die "do not use your prod domain with this testing script";
