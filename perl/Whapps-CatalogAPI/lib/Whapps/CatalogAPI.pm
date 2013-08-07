@@ -19,7 +19,8 @@ use Carp;
 Whapps::CatalogAPI is a perl interface to the catalogapi.com API.
 
 All of the methods return a perl data structure that looks exactly like the
-JSON response examples at catalogapi.com except that the response data structures
+JSON response examples at catalogapi.com (unless stated otherwise in these docs)
+except that the response data structures
 do not include the {METHODNAME_response}->{METHODNAME_response} hash keys.
 This makes it easier to work with the responses.
 
