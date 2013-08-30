@@ -167,6 +167,15 @@ sub view_item
     my $response = $self->_make_get_request( method => 'view_item', %args );
     my $ref = $response->{view_item_response}->{view_item_result};
     $self->_validate_response($ref->{credentials});
+    
+    my $item = $ref->{item};
+    
+    my $tags = delete $item->{tags};
+    $item->{tags} = $tags->{string} || [];
+    
+    my $categories = delete $item->{categories};
+    $item->{categories} = $categories->{integer} || [];
+    
     return $ref;
 }
 
