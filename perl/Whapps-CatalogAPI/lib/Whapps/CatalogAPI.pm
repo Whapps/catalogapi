@@ -691,6 +691,8 @@ sub _make_get_request
 {
     my ($self, %args) = @_;
     
+    $self->_reset_errors();
+    
     my $creds = $self->_generate_creds( method => $args{method} );
     my $method = delete $args{method};
     
@@ -720,6 +722,16 @@ sub _make_get_request
         {
             carp "$response_ref->{Fault}->{detail}";
         }
+        
+        if ($response_ref->{Fault}->{faultcode} =~ /Client/)
+        {
+            $self->client_error($response_ref->{Fault}->{faultstring});
+        }
+        else
+        {
+            $self->server_error($response_ref->{Fault}->{faultstring});
+        }
+        
         die $response_ref->{Fault}->{faultcode} . ': ' . $response_ref->{Fault}->{faultstring} . "\n";
     }
 }
@@ -727,6 +739,8 @@ sub _make_get_request
 sub _create_order
 {
     my ($self, $order_ref) = @_;
+    
+    $self->_reset_errors();
     
     my $method = 'order_place';
     
@@ -767,8 +781,69 @@ sub _create_order
         {
             carp "$response_ref->{Fault}->{detail}";
         }
+        
+        if ($response_ref->{Fault}->{faultcode} =~ /Client/)
+        {
+            $self->client_error($response_ref->{Fault}->{faultstring});
+        }
+        else
+        {
+            $self->server_error($response_ref->{Fault}->{faultstring});
+        }
+        
         die $response_ref->{Fault}->{faultcode} . ': ' . $response_ref->{Fault}->{faultstring} . "\n";
     }
+}
+
+=head2 has_error
+
+Returns the client error message, if the last API request has a client error.
+Client errors are safe to display to end users.
+
+=cut
+sub client_error
+{
+    my ($self, $value) = @_;
+    if (defined($value))
+    {
+        $self->{_client_error} = $value;
+    }
+    return $self->{_client_error};
+}
+
+=head2 has_error
+
+Returns the server error message, if the last API request has a server error.
+Server errors are NOT safe to display to end users.
+
+=cut
+sub server_error
+{
+    my ($self, $value) = @_;
+    if (defined($value))
+    {
+        $self->{_server_error} = $value;
+    }
+    return $self->{_server_error};
+}
+
+=head2 has_error
+
+Returns true if the last API request had an error.
+
+=cut
+sub has_error
+{
+    my ($self) = @_;
+    return ( $self->{_client_error} || $self->{_server_error} ) ? 1 : 0;
+}
+
+sub _reset_errors
+{
+    my ($self) = @_;
+    $self->{_server_error} = "";
+    $self->{_client_error} = "";
+    return;
 }
 
 sub _generate_creds
