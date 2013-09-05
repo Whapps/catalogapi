@@ -470,15 +470,15 @@ sub cart_view
     $self->_validate_response($ref->{credentials});
     
     my @errors;
-    if ( ! $ref->{first_name})
-    {
-        push(@errors, { error => 'The cart must have an address to place an order.' });
-    }
+    
+    my $total_points = 0;
+    my $total_cost = 0;
     
     my $has_item = 0;
     foreach my $cart_item (@{ $ref->{items}->{CartItem} })
     {
-        $has_item = 1;
+        my $item_is_valid = 1;
+        
         unless ($cart_item->{is_available})
         {
             push(@errors, {
@@ -486,7 +486,9 @@ sub cart_view
                 catalog_item_id => $cart_item->{catalog_item_id},
                 option_id => $cart_item->{option_id},
                 });
+            $item_is_valid = 0;
         }
+        
         if ($cart_item->{catalog_price} > $cart_item->{cart_price})
         {
             push(@errors, {
@@ -494,13 +496,32 @@ sub cart_view
                 catalog_item_id => $cart_item->{catalog_item_id},
                 option_id => $cart_item->{option_id},
                 });
+            $item_is_valid = 0;
         }
+        
+        $has_item = 1;
+        $cart_item->{item_is_valid} = $item_is_valid;
+        
+        $total_points += $cart_item->{points};
+        $total_cost += $cart_item->{catalog_price};
     }
+    
+    $ref->{total_points} = $total_points;
+    $ref->{total_cost} = $total_cost;
     
     unless ($has_item)
     {
         push(@errors, 'The cart must contain at least one item to place an order.');
     }
+    
+    $ref->{has_item_errors} = scalar(@errors) ? 1 : 0;
+    
+    if ( ! $ref->{first_name})
+    {
+        push(@errors, { error => 'The cart must have an address to place an order.' });
+    }
+    
+    $ref->{is_valid} = scalar(@errors) ? 0 : 1;
     
     $ref->{errors} = \@errors;
     
