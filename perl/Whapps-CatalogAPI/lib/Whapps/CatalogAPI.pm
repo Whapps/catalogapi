@@ -74,6 +74,19 @@ sub new
     return $self;
 }
 
+=head2 redemption_active
+
+    Returns 1 if redemption is active (i.e. production orders can be placed.)
+    Returns 0 if not.
+
+=cut
+sub redemption_active
+{
+    my ($self, %args) = @_;
+    my $response = $self->_make_get_request( method => 'redemption_active' );
+    return $response->{redemption_active_response}->{redemption_active_result};
+}
+
 =head2 list_available_catalogs
 
     my $list_available_catalogs_response = $api->list_available_catalogs();
