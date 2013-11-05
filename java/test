@@ -1,0 +1,4 @@
+#!/bin/bash
+
+javac -cp "libs/commons-codec-1.8.jar" src/com/catalogapi/*.java src/com/catalogapi/util/*.java \
+  && java -cp 'libs/commons-codec-1.8.jar:./src' com.catalogapi.Test $1 $2

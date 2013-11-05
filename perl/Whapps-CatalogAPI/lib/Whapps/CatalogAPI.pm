@@ -515,8 +515,8 @@ sub cart_view
         $has_item = 1;
         $cart_item->{item_is_valid} = $item_is_valid;
         
-        $total_points += $cart_item->{points};
-        $total_cost += $cart_item->{catalog_price};
+        $total_points += ( $cart_item->{points} * $cart_item->{quantity} );
+        $total_cost += ( $cart_item->{catalog_price} * $cart_item->{quantity} );
     }
     
     $ref->{total_points} = $total_points;
@@ -720,6 +720,7 @@ sub _make_get_request
     @args{keys %$creds} = values %$creds;
     my @params = map { $_ . '=' . uri_escape_utf8($args{$_}) } keys %args;
     my $uri = "https://$self->{endpoint}/$API_VERSION/rest/$method/?" . join('&', @params);
+
     my %meta;
     if ($self->{meta})
     {
@@ -736,6 +737,7 @@ sub _make_get_request
         }
     }
     my $response = $AGENT->get($uri, %meta);
+    #warn "GET $uri";
     my $response_ref;
     eval {
         $response_ref = from_json($response->content);
@@ -892,6 +894,8 @@ sub _generate_creds
     
     my $checksum = encode_base64(hmac_sha1("$method$uuid$datetime", $self->{secret_key}), "");
     
+    #warn "sig string: $method$uuid$datetime - checksum = $checksum - key = $self->{secret_key}";
+
     return {
         creds_uuid => $uuid,
         creds_datetime => $datetime,
