@@ -753,22 +753,20 @@ sub _make_get_request
 
 sub _create_order
 {
-    my ($self, $order_ref) = @_;
+    my ($self, $order_args) = @_;
     
     $self->_reset_errors();
     
     my $method = 'order_place';
-    
     my $creds = $self->_generate_creds( method => $method );
     
     # wrap the request
     my $order_ref = {
         order_place => {
-            order_place_request => $order_ref,
+            order_place_request => $order_args,
         },
     };
     
-    my $creds = $self->_generate_creds( method => $method );
     $order_ref->{order_place}->{order_place_request}->{credentials} = {
         method => $method,
         checksum => $creds->{creds_checksum},
