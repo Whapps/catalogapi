@@ -705,7 +705,12 @@ sub _make_get_request
     my ($self, %args) = @_;
     
     $self->_reset_errors();
-    
+   
+    if (($self->{external_id_prefix}) && ($args{external_user_id}))
+    {
+        $args{external_user_id} = $self->{external_id_prefix} . $args{external_user_id}
+    }
+ 
     my $creds = $self->_generate_creds( method => $args{method} );
     my $method = delete $args{method};
     
@@ -716,9 +721,23 @@ sub _make_get_request
     my @params = map { $_ . '=' . uri_escape_utf8($args{$_}) } keys %args;
     my $uri = "https://$self->{endpoint}/$API_VERSION/rest/$method/?" . join('&', @params);
 
+    my %meta;
+    if ($self->{meta})
+    {
+        while (my($k,$v) = each %{$self->{meta}})
+        {
+            if ($k =~ /^x-meta/)
+            {
+                $meta{$k} = $v;
+            }
+            else
+            {
+                $meta{'x-meta-' . $k} = $v;
+            }
+        }
+    }
+    my $response = $AGENT->get($uri, %meta);
     #warn "GET $uri";
-    
-    my $response = $AGENT->get($uri);
     my $response_ref;
     eval {
         $response_ref = from_json($response->content);
@@ -753,22 +772,19 @@ sub _make_get_request
 
 sub _create_order
 {
-    my ($self, $order_ref) = @_;
+    my ($self, $order_args) = @_;
     
     $self->_reset_errors();
-    
     my $method = 'order_place';
-    
     my $creds = $self->_generate_creds( method => $method );
     
     # wrap the request
     my $order_ref = {
         order_place => {
-            order_place_request => $order_ref,
+            order_place_request => $order_args,
         },
     };
     
-    my $creds = $self->_generate_creds( method => $method );
     $order_ref->{order_place}->{order_place_request}->{credentials} = {
         method => $method,
         checksum => $creds->{creds_checksum},
