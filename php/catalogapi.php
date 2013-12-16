@@ -54,12 +54,14 @@ class CatalogAPI
             
             #print("URL:" . $url . "\n");
 
+            // TODO reuse $ch?
             $ch = curl_init( $url );
             
             curl_setopt($ch,CURLOPT_TIMEOUT,30);
             curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
             
             $result = curl_exec($ch);
+            curl_close($ch);
             
             if ($this->endpoint == "rest")
             {
