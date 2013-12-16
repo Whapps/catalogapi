@@ -1,0 +1,17 @@
+// This is an example for how to generate a checksum using .NET
+
+using System;                                                                                                                                                                                                                                                                 
+using System.Text;
+using System.Security.Cryptography;
+public class CatalogAPIHmacExample
+{
+        public static void Main()
+        {
+ 
+                byte[] digestValue = Encoding.UTF8.GetBytes("cart_viewb93cee9d-dd04-4154-9b5a-8768971e72b82013-01-01T01:30:00Z");
+                HMACSHA1 hmac = new HMACSHA1(Encoding.UTF8.GetBytes("YOUR_SECRET_KEY"));
+                Byte[] hashValue = hmac.ComputeHash(digestValue);
+                string checksumValue = Convert.ToBase64String(hashValue);
+                Console.WriteLine("checksum is: " + checksumValue);
+        }
+}
