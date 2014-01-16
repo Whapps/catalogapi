@@ -736,6 +736,20 @@ sub _make_get_request
             }
         }
     }
+    if ($args{meta})
+    {
+        while (my($k,$v) = each %{$args{meta}})
+        {
+            if ($k =~ /^x-meta/)
+            {
+                $meta{$k} = $v;
+            }
+            else
+            {
+                $meta{'x-meta-' . $k} = $v;
+            }
+        }
+    }
     my $response = $AGENT->get($uri, %meta);
     #warn "GET $uri";
     my $response_ref;
