@@ -700,6 +700,14 @@ sub order_list
     return $ref;
 }
 
+sub top_items_by_tag
+{
+    my ($self, %args) = @_;
+    my $response = $self->_make_get_request( method => 'top_items_by_tag', %args );
+    my $ref = $response->{top_items_by_tag_response}->{top_items_by_tag_result};
+    return $ref;
+}
+
 sub _make_get_request
 {
     my ($self, %args) = @_;
