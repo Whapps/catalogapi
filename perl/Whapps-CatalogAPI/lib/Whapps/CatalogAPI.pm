@@ -762,10 +762,7 @@ sub _make_get_request
     #warn "GET $uri";
     my $response_ref;
     eval {
-        
-        $response_ref = from_json($response->content, { utf8  => 1 });
-        
-        #$response_ref = decode_json($response->content);
+        $response_ref = from_json($response->content, { utf8  => 0 });
     };
     if (my $decode_error = $@)
     {
