@@ -763,7 +763,7 @@ sub _make_get_request
     my $response_ref;
     eval {
         
-        $response_ref = from_json($response->content, { utf8  => 1 });
+        $response_ref = from_json($response->content, { utf8  => 0 });
         
         #$response_ref = decode_json($response->content);
     };
