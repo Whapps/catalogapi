@@ -762,10 +762,8 @@ sub _make_get_request
     #warn "GET $uri";
     my $response_ref;
     eval {
-        
+        # turning off utf8 here will actually return proper multi-byte characters
         $response_ref = from_json($response->content, { utf8  => 0 });
-        
-        #$response_ref = decode_json($response->content);
     };
     if (my $decode_error = $@)
     {
