@@ -7,7 +7,7 @@ our $API_VERSION = 'v1';
 
 use LWP::UserAgent qw();
 use URI::Escape qw(uri_escape_utf8);
-use JSON qw(to_json from_json);
+use JSON qw(to_json from_json encode_json decode_json);
 use Data::UUID qw();
 use Digest::HMAC_SHA1 qw(hmac_sha1);
 use MIME::Base64 qw(encode_base64);
@@ -762,7 +762,7 @@ sub _make_get_request
     #warn "GET $uri";
     my $response_ref;
     eval {
-        $response_ref = from_json($response->content);
+        $response_ref = decode_json($response->content);
     };
     if (my $decode_error = $@)
     {
