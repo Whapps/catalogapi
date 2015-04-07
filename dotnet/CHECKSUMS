@@ -8,6 +8,7 @@ public class CatalogAPIHmacExample
         public static void Main()
         {
                 string msgUuid = Guid.NewGuid().ToString();
+                # the timezone must be UTC
                 string utcDate = DateTime.UtcNow.ToString("yyyy-MM-ddTHH:mm:ssZ");
                 byte[] digestValue = Encoding.UTF8.GetBytes("cart_view" + msgUuid + utcDate);
                 HMACSHA1 hmac = new HMACSHA1(Encoding.UTF8.GetBytes("YOUR_SECRET_KEY"));
