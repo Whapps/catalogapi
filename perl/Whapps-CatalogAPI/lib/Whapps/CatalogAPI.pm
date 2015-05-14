@@ -6,7 +6,8 @@ our $VERSION = 1.0;
 our $API_VERSION = 'v1';
 
 use LWP::UserAgent qw();
-use URI::Escape qw(uri_escape_utf8);
+use URI::Escape qw(uri_escape);
+use Encode qw(encode_utf8 is_utf8);
 use JSON qw(to_json from_json encode_json decode_json);
 use Data::UUID qw();
 use Digest::HMAC_SHA1 qw(hmac_sha1);
@@ -726,7 +727,7 @@ sub _make_get_request
     $die_on_fault = 1 unless defined($die_on_fault);
     
     @args{keys %$creds} = values %$creds;
-    my @params = map { $_ . '=' . uri_escape_utf8($args{$_}) } keys %args;
+    my @params = map { $_ . '=' . uri_escape( is_utf8($args{$_}) ? encode_utf8($args{$_}) : $args{$_} ) } keys %args;
     my $uri = "https://$self->{endpoint}/$API_VERSION/rest/$method/?" . join('&', @params);
 
     my %meta;

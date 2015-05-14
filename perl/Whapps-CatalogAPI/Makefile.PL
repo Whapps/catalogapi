@@ -14,6 +14,7 @@ WriteMakefile(
         'Digest::HMAC_SHA1' => 0,
         'MIME::Base64' => 0,
         'DateTime' => 0,
+        'Encode' => 0,
     }, # e.g., Module::Name => 1.1
     ($] >= 5.005 ?     ## Add these new keywords supported since 5.005
       (ABSTRACT_FROM  => 'lib/Whapps/CatalogAPI.pm', # retrieve abstract from module
