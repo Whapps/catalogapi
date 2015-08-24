@@ -4,3 +4,9 @@ Session.vim
 .netrwhist
 *~
 .DS_Store
+dotnet/packages/
+dotnet/UnitTests/obj/
+dotnet/CatalogAPI/obj/
+dotnet/UnitTests/bin/Debug/Newtonsoft.Json.xml
+dotnet/UnitTests/bin/
+dotnet/CatalogAPI/bin/
