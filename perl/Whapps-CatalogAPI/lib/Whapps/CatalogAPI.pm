@@ -816,7 +816,7 @@ sub _create_order
     };
     
     my $uri = "https://$self->{endpoint}/$API_VERSION/json/$method/";
-    my $response = $AGENT->post($uri, Content => to_json($order_ref));
+    my $response = $AGENT->post($uri, Content => encode_json($order_ref));
     my $response_ref;
     eval {
         $response_ref = from_json($response->content);
