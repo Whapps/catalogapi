@@ -735,6 +735,7 @@ sub _make_get_request
     {
         while (my($k,$v) = each %{$self->{meta}})
         {
+            $v = is_utf8($v) ? encode_utf8($v) : $v;
             if ($k =~ /^x-meta/)
             {
                 $meta{$k} = $v;
@@ -749,6 +750,7 @@ sub _make_get_request
     {
         while (my($k,$v) = each %{$args{meta}})
         {
+            $v = is_utf8($v) ? encode_utf8($v) : $v;
             if ($k =~ /^x-meta/)
             {
                 $meta{$k} = $v;
