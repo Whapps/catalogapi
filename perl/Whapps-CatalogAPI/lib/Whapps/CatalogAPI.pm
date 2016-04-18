@@ -8,7 +8,7 @@ our $API_VERSION = 'v1';
 use LWP::UserAgent qw();
 use URI::Escape qw(uri_escape);
 use Encode qw(encode_utf8 is_utf8);
-use JSON qw(to_json from_json encode_json decode_json);
+use JSON qw(encode_json decode_json);
 use Data::UUID qw();
 use Digest::HMAC_SHA1 qw(hmac_sha1);
 use MIME::Base64 qw(encode_base64);
@@ -735,6 +735,7 @@ sub _make_get_request
     {
         while (my($k,$v) = each %{$self->{meta}})
         {
+            $v = is_utf8($v) ? encode_utf8($v) : $v;
             if ($k =~ /^x-meta/)
             {
                 $meta{$k} = $v;
@@ -749,6 +750,7 @@ sub _make_get_request
     {
         while (my($k,$v) = each %{$args{meta}})
         {
+            $v = is_utf8($v) ? encode_utf8($v) : $v;
             if ($k =~ /^x-meta/)
             {
                 $meta{$k} = $v;
@@ -763,7 +765,7 @@ sub _make_get_request
     #warn "GET $uri";
     my $response_ref;
     eval {
-        $response_ref = from_json($response->content);
+        $response_ref = decode_json($response->content);
     };
     if (my $decode_error = $@)
     {
@@ -816,10 +818,10 @@ sub _create_order
     };
     
     my $uri = "https://$self->{endpoint}/$API_VERSION/json/$method/";
-    my $response = $AGENT->post($uri, Content => to_json($order_ref));
+    my $response = $AGENT->post($uri, Content => encode_json($order_ref));
     my $response_ref;
     eval {
-        $response_ref = from_json($response->content);
+        $response_ref = decode_json($response->content);
     };
     if (my $decode_error = $@)
     {
