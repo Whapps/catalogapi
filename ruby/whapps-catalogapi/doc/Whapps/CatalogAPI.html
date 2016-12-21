@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="UTF-8">
+
+<title>class Whapps::CatalogAPI - RDoc Documentation</title>
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script src="../js/jquery.js"></script>
+<script src="../js/darkfish.js"></script>
+
+<link href="../css/fonts.css" rel="stylesheet">
+<link href="../css/rdoc.css" rel="stylesheet">
+
+
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="../index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="../table_of_contents.html#pages">Pages</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    <div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
+  
+  <p class="link">Object
+  
+</div>
+
+    
+    
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    
+    <li ><a href="#method-c-new">::new</a>
+    
+    <li ><a href="#method-i-cart_add_item">#cart_add_item</a>
+    
+    <li ><a href="#method-i-cart_empty">#cart_empty</a>
+    
+    <li ><a href="#method-i-cart_has_item_errors-3F">#cart_has_item_errors?</a>
+    
+    <li ><a href="#method-i-cart_is_locked-3F">#cart_is_locked?</a>
+    
+    <li ><a href="#method-i-cart_is_valid-3F">#cart_is_valid?</a>
+    
+    <li ><a href="#method-i-cart_needs_address-3F">#cart_needs_address?</a>
+    
+    <li ><a href="#method-i-cart_order_place">#cart_order_place</a>
+    
+    <li ><a href="#method-i-cart_remove_item">#cart_remove_item</a>
+    
+    <li ><a href="#method-i-cart_set_address">#cart_set_address</a>
+    
+    <li ><a href="#method-i-cart_set_item_quantity">#cart_set_item_quantity</a>
+    
+    <li ><a href="#method-i-cart_unlock">#cart_unlock</a>
+    
+    <li ><a href="#method-i-cart_validate">#cart_validate</a>
+    
+    <li ><a href="#method-i-cart_view">#cart_view</a>
+    
+    <li ><a href="#method-i-catalog_breakdown">#catalog_breakdown</a>
+    
+    <li ><a href="#method-i-list_available_catalogs">#list_available_catalogs</a>
+    
+    <li ><a href="#method-i-order_list">#order_list</a>
+    
+    <li ><a href="#method-i-order_track">#order_track</a>
+    
+    <li ><a href="#method-i-redemption_active-3F">#redemption_active?</a>
+    
+    <li ><a href="#method-i-search_catalog">#search_catalog</a>
+    
+    <li ><a href="#method-i-view_item">#view_item</a>
+    
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="class-Whapps::CatalogAPI">
+  <h1 id="class-Whapps::CatalogAPI" class="class">
+    class Whapps::CatalogAPI
+  </h1>
+
+  <section class="description">
+    
+<p><a href="CatalogAPI.html">Whapps::CatalogAPI</a> - Interface to the
+catalogapi.com API For more informaiton on the catalogapi.com service,
+please check your documentation portal</p>
+
+  </section>
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <section class="constants-list">
+      <header>
+        <h3>Constants</h3>
+      </header>
+      <dl>
+      
+        <dt id="API_VERSION">API_VERSION
+        
+        <dd><p>Right now this is for API version 1, dont let it be changed</p>
+        
+      
+      </dl>
+    </section>
+    
+
+    
+    <section class="attribute-method-details" class="method-section">
+      <header>
+        <h3>Attributes</h3>
+      </header>
+
+      
+      <div id="attribute-i-endpoint" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">endpoint</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-secret_key" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">secret_key</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+    </section>
+    
+
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Class Methods</h3>
+       </header>
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(endpoint:, secret_key:)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/whapps/catalogapi.rb, line 18</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">endpoint</span>,, <span class="ruby-identifier">secret_key</span>))
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">endpoint</span> = <span class="ruby-identifier">endpoint</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">secret_key</span> = <span class="ruby-identifier">secret_key</span>
+  <span class="ruby-ivar">@digester</span> = <span class="ruby-constant">OpenSSL</span><span class="ruby-operator">::</span><span class="ruby-constant">Digest</span>.<span class="ruby-identifier">new</span>(<span class="ruby-string">&#39;sha1&#39;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-cart_add_item" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cart_add_item</span><span
+            class="method-args">(socket:, catalog_item_id:, user:, option_id: nil, quantity: 1)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Add an item to the user&#39;s cart.</p>
+
+<p>Required arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>socket</code>
+<dd>
+<p><strong>Integer</strong> The socket ID</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>catalog_item_id</code>
+<dd>
+<p><strong>Integer</strong> The item ID to view</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>user</code>
+<dd>
+<p><strong>String</strong> The ID of the user making the request from your
+system</p>
+</dd></dl>
+</li></ul>
+
+<p>Optional arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>option_id</code>
+<dd>
+<p><strong>Integer</strong> The option ID (if present on the item)</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>quantity</code>
+<dd>
+<p><strong>Integer</strong> The quantity to add, defaults to 1</p>
+</dd></dl>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="cart_add_item-source">
+            <pre><span class="ruby-comment"># File lib/whapps/catalogapi.rb, line 133</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">cart_add_item</span>(<span class="ruby-identifier">socket</span>,, <span class="ruby-identifier">catalog_item_id</span>,, <span class="ruby-identifier">user</span>,, <span class="ruby-identifier">option_id</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">quantity</span><span class="ruby-operator">:</span> <span class="ruby-value">1</span>)
+  <span class="ruby-identifier">response</span> = <span class="ruby-identifier">get_request</span>(<span class="ruby-identifier">method</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;cart_add_item&#39;</span>,
+                         <span class="ruby-identifier">query</span><span class="ruby-operator">:</span>  { <span class="ruby-string">&#39;socket_id&#39;</span>        =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">socket</span>,
+                                   <span class="ruby-string">&#39;catalog_item_id&#39;</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">catalog_item_id</span>,
+                                   <span class="ruby-string">&#39;external_user_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user</span>,
+                                   <span class="ruby-string">&#39;option_id&#39;</span>        =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">option_id</span>,
+                                   <span class="ruby-string">&#39;quantity&#39;</span>         =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">quantity</span> })
+  <span class="ruby-identifier">response</span>[<span class="ruby-string">&#39;description&#39;</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-cart_empty" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cart_empty</span><span
+            class="method-args">(socket:, user:)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Empty the user&#39;s cart.</p>
+
+<p>Required arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>socket</code>
+<dd>
+<p><strong>Integer</strong> The socket ID</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>user</code>
+<dd>
+<p><strong>String</strong> The ID of the user making the request from your
+system</p>
+</dd></dl>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="cart_empty-source">
+            <pre><span class="ruby-comment"># File lib/whapps/catalogapi.rb, line 187</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">cart_empty</span>(<span class="ruby-identifier">socket</span>,, <span class="ruby-identifier">user</span>))
+  <span class="ruby-identifier">response</span> = <span class="ruby-identifier">get_request</span>(<span class="ruby-identifier">method</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;cart_empty&#39;</span>,
+                         <span class="ruby-identifier">query</span><span class="ruby-operator">:</span>  { <span class="ruby-string">&#39;socket_id&#39;</span>        =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">socket</span>,
+                                   <span class="ruby-string">&#39;external_user_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user</span> })
+  <span class="ruby-identifier">response</span>[<span class="ruby-string">&#39;description&#39;</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-cart_has_item_errors-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cart_has_item_errors?</span><span
+            class="method-args">(socket:, user:)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns true if the cart contains items that have pricing or availability
+changes.</p>
+
+<p>Required arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>socket</code>
+<dd>
+<p><strong>Integer</strong> The socket ID</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>user</code>
+<dd>
+<p><strong>String</strong> The ID of the user making the request from your
+system</p>
+</dd></dl>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="cart_has_item_errors-3F-source">
+            <pre><span class="ruby-comment"># File lib/whapps/catalogapi.rb, line 304</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">cart_has_item_errors?</span>(<span class="ruby-identifier">socket</span>,, <span class="ruby-identifier">user</span>))
+  <span class="ruby-identifier">response</span> = <span class="ruby-identifier">get_request</span>(<span class="ruby-identifier">method</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;cart_view&#39;</span>, <span class="ruby-identifier">query</span><span class="ruby-operator">:</span> { <span class="ruby-string">&#39;socket_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">socket</span>, <span class="ruby-string">&#39;external_user_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user</span> })
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">response</span>[<span class="ruby-string">&#39;has_item_errors&#39;</span>].<span class="ruby-identifier">to_i</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>
+  <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-cart_is_locked-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cart_is_locked?</span><span
+            class="method-args">(socket:, user:)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns true if the cart is currently locked.</p>
+
+<p>Required arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>socket</code>
+<dd>
+<p><strong>Integer</strong> The socket ID</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>user</code>
+<dd>
+<p><strong>String</strong> The ID of the user making the request from your
+system</p>
+</dd></dl>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="cart_is_locked-3F-source">
+            <pre><span class="ruby-comment"># File lib/whapps/catalogapi.rb, line 282</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">cart_is_locked?</span>(<span class="ruby-identifier">socket</span>,, <span class="ruby-identifier">user</span>))
+  <span class="ruby-identifier">response</span> = <span class="ruby-identifier">get_request</span>(<span class="ruby-identifier">method</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;cart_view&#39;</span>, <span class="ruby-identifier">query</span><span class="ruby-operator">:</span> { <span class="ruby-string">&#39;socket_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">socket</span>, <span class="ruby-string">&#39;external_user_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user</span> })
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">response</span>[<span class="ruby-string">&#39;locked&#39;</span>].<span class="ruby-identifier">to_i</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>
+  <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-cart_is_valid-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cart_is_valid?</span><span
+            class="method-args">(socket:, user:)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns true if the cart is valid and has no errors.</p>
+
+<p>Required arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>socket</code>
+<dd>
+<p><strong>Integer</strong> The socket ID</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>user</code>
+<dd>
+<p><strong>String</strong> The ID of the user making the request from your
+system</p>
+</dd></dl>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="cart_is_valid-3F-source">
+            <pre><span class="ruby-comment"># File lib/whapps/catalogapi.rb, line 293</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">cart_is_valid?</span>(<span class="ruby-identifier">socket</span>,, <span class="ruby-identifier">user</span>))
+  <span class="ruby-identifier">response</span> = <span class="ruby-identifier">get_request</span>(<span class="ruby-identifier">method</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;cart_view&#39;</span>, <span class="ruby-identifier">query</span><span class="ruby-operator">:</span> { <span class="ruby-string">&#39;socket_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">socket</span>, <span class="ruby-string">&#39;external_user_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user</span> })
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">response</span>[<span class="ruby-string">&#39;is_valid&#39;</span>].<span class="ruby-identifier">to_i</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>
+  <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-cart_needs_address-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cart_needs_address?</span><span
+            class="method-args">(socket:, user:)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns true if the cart does not have an address information set.</p>
+
+<p>Required arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>socket</code>
+<dd>
+<p><strong>Integer</strong> The socket ID</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>user</code>
+<dd>
+<p><strong>String</strong> The ID of the user making the request from your
+system</p>
+</dd></dl>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="cart_needs_address-3F-source">
+            <pre><span class="ruby-comment"># File lib/whapps/catalogapi.rb, line 271</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">cart_needs_address?</span>(<span class="ruby-identifier">socket</span>,, <span class="ruby-identifier">user</span>))
+  <span class="ruby-identifier">response</span> = <span class="ruby-identifier">get_request</span>(<span class="ruby-identifier">method</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;cart_view&#39;</span>, <span class="ruby-identifier">query</span><span class="ruby-operator">:</span> { <span class="ruby-string">&#39;socket_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">socket</span>, <span class="ruby-string">&#39;external_user_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user</span> })
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">response</span>[<span class="ruby-string">&#39;needs_address&#39;</span>].<span class="ruby-identifier">to_i</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>
+  <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-cart_order_place" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cart_order_place</span><span
+            class="method-args">(socket:, user:, cart_version: nil)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Convert the current user cart into an order.  If you pass the cart version
+number the API will make sure the cart has not been changed before trying
+to place the order.</p>
+
+<p>Required arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>socket</code>
+<dd>
+<p><strong>Integer</strong> The socket ID</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>user</code>
+<dd>
+<p><strong>String</strong> The ID of the user making the request from your
+system</p>
+</dd></dl>
+</li></ul>
+
+<p>Optional arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>cart_version</code>
+<dd>
+<p><strong>String</strong> The UUID cart version number</p>
+</dd></dl>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="cart_order_place-source">
+            <pre><span class="ruby-comment"># File lib/whapps/catalogapi.rb, line 319</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">cart_order_place</span>(<span class="ruby-identifier">socket</span>,, <span class="ruby-identifier">user</span>,, <span class="ruby-identifier">cart_version</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">response</span> = <span class="ruby-identifier">get_request</span>(<span class="ruby-identifier">method</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;cart_order_place&#39;</span>,
+                         <span class="ruby-identifier">query</span><span class="ruby-operator">:</span>  { <span class="ruby-string">&#39;socket_id&#39;</span>        =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">socket</span>,
+                                   <span class="ruby-string">&#39;cart_version&#39;</span>     =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">cart_version</span>,
+                                   <span class="ruby-string">&#39;external_user_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user</span> })
+  <span class="ruby-identifier">response</span>[<span class="ruby-string">&#39;order_number&#39;</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-cart_remove_item" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cart_remove_item</span><span
+            class="method-args">(socket:, catalog_item_id:, user:, option_id: nil)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Remove an item from the user&#39;s cart.</p>
+
+<p>Required arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>socket</code>
+<dd>
+<p><strong>Integer</strong> The socket ID</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>catalog_item_id</code>
+<dd>
+<p><strong>Integer</strong> The item ID to view</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>user</code>
+<dd>
+<p><strong>String</strong> The ID of the user making the request from your
+system</p>
+</dd></dl>
+</li></ul>
+
+<p>Optional arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>option_id</code>
+<dd>
+<p><strong>Integer</strong> The option ID (if present on the item)</p>
+</dd></dl>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="cart_remove_item-source">
+            <pre><span class="ruby-comment"># File lib/whapps/catalogapi.rb, line 152</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">cart_remove_item</span>(<span class="ruby-identifier">socket</span>,, <span class="ruby-identifier">catalog_item_id</span>,, <span class="ruby-identifier">user</span>,, <span class="ruby-identifier">option_id</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">response</span> = <span class="ruby-identifier">get_request</span>(<span class="ruby-identifier">method</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;cart_set_item_quantity&#39;</span>,
+                         <span class="ruby-identifier">query</span><span class="ruby-operator">:</span>  { <span class="ruby-string">&#39;socket_id&#39;</span>        =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">socket</span>,
+                                   <span class="ruby-string">&#39;catalog_item_id&#39;</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">catalog_item_id</span>,
+                                   <span class="ruby-string">&#39;option_id&#39;</span>        =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">option_id</span>,
+                                   <span class="ruby-string">&#39;quantity&#39;</span>         =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>,
+                                   <span class="ruby-string">&#39;external_user_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user</span> })
+  <span class="ruby-identifier">response</span>[<span class="ruby-string">&#39;description&#39;</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-cart_set_address" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cart_set_address</span><span
+            class="method-args">(socket:, user:, first_name:, last_name:, address_1:, address_2: nil, address_3: nil, city:, state_province:, postal_code:, country:, email:, phone_number: nil)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Set the address that you wish the items to be shipped to, along with the
+user&#39;s name and contact information.</p>
+
+<p>Required arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>socket</code>
+<dd>
+<p><strong>Integer</strong> The socket ID</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>user</code>
+<dd>
+<p><strong>String</strong> The ID of the user making the request from your
+system</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>first_name</code>
+<dd>
+<p><strong>String</strong> The user&#39;s first name</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>last_name</code>
+<dd>
+<p><strong>String</strong> The user&#39;s last name</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>address_1</code>
+<dd>
+<p><strong>String</strong> The user&#39;s address line 1</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>city</code>
+<dd>
+<p><strong>String</strong> The user&#39;s city</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>state_province</code>
+<dd>
+<p><strong>String</strong> The user&#39;s state or province</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>postal_code</code>
+<dd>
+<p><strong>String</strong> The user&#39;s postal code</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>country</code>
+<dd>
+<p><strong>String</strong> The user&#39;s country code</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>email</code>
+<dd>
+<p><strong>String</strong> The user&#39;s email address</p>
+</dd></dl>
+</li></ul>
+
+<p>Optional arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>address_2</code>
+<dd>
+<p><strong>String</strong> The user&#39;s address line 2</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>address_3</code>
+<dd>
+<p><strong>String</strong> The user&#39;s address line 3</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>phone_number</code>
+<dd>
+<p><strong>String</strong> The user&#39;s phone number</p>
+</dd></dl>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="cart_set_address-source">
+            <pre><span class="ruby-comment"># File lib/whapps/catalogapi.rb, line 213</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">cart_set_address</span>(<span class="ruby-identifier">socket</span>,, <span class="ruby-identifier">user</span>,, <span class="ruby-identifier">first_name</span>,, <span class="ruby-identifier">last_name</span>,,
+                     <span class="ruby-identifier">address_1</span>,, <span class="ruby-identifier">address_2</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">address_3</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">city</span>,,
+                     <span class="ruby-identifier">state_province</span>,, <span class="ruby-identifier">postal_code</span>,, <span class="ruby-identifier">country</span>,,
+                     <span class="ruby-identifier">email</span>,, <span class="ruby-identifier">phone_number</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">get_request</span>(<span class="ruby-identifier">method</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;cart_set_address&#39;</span>,
+              <span class="ruby-identifier">query</span><span class="ruby-operator">:</span>  { <span class="ruby-string">&#39;socket_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">socket</span>, <span class="ruby-string">&#39;external_user_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user</span>, <span class="ruby-string">&#39;first_name&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">first_name</span>,
+                                  <span class="ruby-string">&#39;last_name&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">last_name</span>, <span class="ruby-string">&#39;address_1&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">address_1</span>, <span class="ruby-string">&#39;address_2&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">address_2</span>,
+                                  <span class="ruby-string">&#39;address_3&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">address_3</span>, <span class="ruby-string">&#39;city&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">city</span>, <span class="ruby-string">&#39;state_province&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">state_province</span>,
+                                  <span class="ruby-string">&#39;postal_code&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">postal_code</span>, <span class="ruby-string">&#39;country&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">country</span>, <span class="ruby-string">&#39;email&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">email</span>,
+                                  <span class="ruby-string">&#39;phone_number&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">phone_number</span> })[<span class="ruby-string">&#39;description&#39;</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-cart_set_item_quantity" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cart_set_item_quantity</span><span
+            class="method-args">(socket:, catalog_item_id:, quantity:, user:, option_id: nil)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Set the quantity of an item already in the cart</p>
+
+<p>Required arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>socket</code>
+<dd>
+<p><strong>Integer</strong> The socket ID</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>catalog_item_id</code>
+<dd>
+<p><strong>Integer</strong> The item ID to view</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>user</code>
+<dd>
+<p><strong>String</strong> The ID of the user making the request from your
+system</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>quantity</code>
+<dd>
+<p><strong>Integer</strong> The quantity to add, defaults to 1</p>
+</dd></dl>
+</li></ul>
+
+<p>Optional arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>option_id</code>
+<dd>
+<p><strong>Integer</strong> The option ID (if present on the item)</p>
+</dd></dl>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="cart_set_item_quantity-source">
+            <pre><span class="ruby-comment"># File lib/whapps/catalogapi.rb, line 172</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">cart_set_item_quantity</span>(<span class="ruby-identifier">socket</span>,, <span class="ruby-identifier">catalog_item_id</span>,, <span class="ruby-identifier">quantity</span>,, <span class="ruby-identifier">user</span>,, <span class="ruby-identifier">option_id</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">response</span> = <span class="ruby-identifier">get_request</span>(<span class="ruby-identifier">method</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;cart_set_item_quantity&#39;</span>,
+                         <span class="ruby-identifier">query</span><span class="ruby-operator">:</span>  { <span class="ruby-string">&#39;socket_id&#39;</span>        =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">socket</span>,
+                                   <span class="ruby-string">&#39;catalog_item_id&#39;</span>  =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">catalog_item_id</span>,
+                                   <span class="ruby-string">&#39;option_id&#39;</span>        =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">option_id</span>,
+                                   <span class="ruby-string">&#39;quantity&#39;</span>         =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">quantity</span>,
+                                   <span class="ruby-string">&#39;external_user_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user</span> })
+  <span class="ruby-identifier">response</span>[<span class="ruby-string">&#39;description&#39;</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-cart_unlock" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cart_unlock</span><span
+            class="method-args">(socket:, user:)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Unlocks the cart so it can be edited again.</p>
+
+<p>Required arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>socket</code>
+<dd>
+<p><strong>Integer</strong> The socket ID</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>user</code>
+<dd>
+<p><strong>String</strong> The ID of the user making the request from your
+system</p>
+</dd></dl>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="cart_unlock-source">
+            <pre><span class="ruby-comment"># File lib/whapps/catalogapi.rb, line 246</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">cart_unlock</span>(<span class="ruby-identifier">socket</span>,, <span class="ruby-identifier">user</span>))
+  <span class="ruby-identifier">response</span> = <span class="ruby-identifier">get_request</span>(<span class="ruby-identifier">method</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;cart_unlock&#39;</span>,
+                         <span class="ruby-identifier">query</span><span class="ruby-operator">:</span>  { <span class="ruby-string">&#39;socket_id&#39;</span>        =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">socket</span>,
+                                   <span class="ruby-string">&#39;external_user_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user</span> })
+  <span class="ruby-identifier">response</span>[<span class="ruby-string">&#39;description&#39;</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-cart_validate" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cart_validate</span><span
+            class="method-args">(socket:, user:, locked: 1)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Validate that the cart can be placed and has no errors like missing items.</p>
+
+<p>Required arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>socket</code>
+<dd>
+<p><strong>Integer</strong> The socket ID</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>user</code>
+<dd>
+<p><strong>String</strong> The ID of the user making the request from your
+system</p>
+</dd></dl>
+</li></ul>
+
+<p>Optional arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>locked</code>
+<dd>
+<p><strong>Integer</strong> Defaults to 1, but set to 0 to not lock the cart
+on validate</p>
+</dd></dl>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="cart_validate-source">
+            <pre><span class="ruby-comment"># File lib/whapps/catalogapi.rb, line 233</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">cart_validate</span>(<span class="ruby-identifier">socket</span>,, <span class="ruby-identifier">user</span>,, <span class="ruby-identifier">locked</span><span class="ruby-operator">:</span> <span class="ruby-value">1</span>)
+  <span class="ruby-identifier">response</span> = <span class="ruby-identifier">get_request</span>(<span class="ruby-identifier">method</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;cart_validate&#39;</span>,
+                         <span class="ruby-identifier">query</span><span class="ruby-operator">:</span>  { <span class="ruby-string">&#39;socket_id&#39;</span>        =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">socket</span>,
+                                   <span class="ruby-string">&#39;locked&#39;</span>           =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">locked</span>,
+                                   <span class="ruby-string">&#39;external_user_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user</span> })
+  <span class="ruby-identifier">response</span>[<span class="ruby-string">&#39;description&#39;</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-cart_view" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">cart_view</span><span
+            class="method-args">(socket:, user:)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Fetch the user&#39;s current cart contents.</p>
+
+<p>Required arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>socket</code>
+<dd>
+<p><strong>Integer</strong> The socket ID</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>user</code>
+<dd>
+<p><strong>String</strong> The ID of the user making the request from your
+system</p>
+</dd></dl>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="cart_view-source">
+            <pre><span class="ruby-comment"># File lib/whapps/catalogapi.rb, line 258</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">cart_view</span>(<span class="ruby-identifier">socket</span>,, <span class="ruby-identifier">user</span>))
+  <span class="ruby-identifier">clean_cart</span> = <span class="ruby-identifier">get_request</span>(<span class="ruby-identifier">method</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;cart_view&#39;</span>, <span class="ruby-identifier">query</span><span class="ruby-operator">:</span> { <span class="ruby-string">&#39;socket_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">socket</span>, <span class="ruby-string">&#39;external_user_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user</span> })
+  <span class="ruby-identifier">clean_cart</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-string">&#39;credentials&#39;</span>)
+  <span class="ruby-identifier">items</span> = <span class="ruby-identifier">clean_cart</span>[<span class="ruby-string">&#39;items&#39;</span>].<span class="ruby-identifier">delete</span>(<span class="ruby-string">&#39;CartItem&#39;</span>)
+  <span class="ruby-identifier">clean_cart</span>[<span class="ruby-string">&#39;items&#39;</span>] = <span class="ruby-identifier">items</span>
+  <span class="ruby-identifier">clean_cart</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-catalog_breakdown" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">catalog_breakdown</span><span
+            class="method-args">(socket:)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Get the tree of catalog categories for the selected socket</p>
+
+<p>Required arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>socket</code>
+<dd>
+<p><strong>Integer</strong> The socket ID</p>
+</dd></dl>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="catalog_breakdown-source">
+            <pre><span class="ruby-comment"># File lib/whapps/catalogapi.rb, line 85</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">catalog_breakdown</span>(<span class="ruby-identifier">socket</span>))
+  <span class="ruby-identifier">response</span> = <span class="ruby-identifier">get_request</span>(<span class="ruby-identifier">method</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;catalog_breakdown&#39;</span>, <span class="ruby-identifier">query</span><span class="ruby-operator">:</span> { <span class="ruby-string">&#39;socket_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">socket</span> })
+  <span class="ruby-identifier">response</span>[<span class="ruby-string">&#39;categories&#39;</span>][<span class="ruby-string">&#39;Category&#39;</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-list_available_catalogs" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">list_available_catalogs</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>List the sockets made available for the selected account.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="list_available_catalogs-source">
+            <pre><span class="ruby-comment"># File lib/whapps/catalogapi.rb, line 76</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">list_available_catalogs</span>
+  <span class="ruby-identifier">response</span> = <span class="ruby-identifier">get_request</span>(<span class="ruby-identifier">method</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;list_available_catalogs&#39;</span>)
+  <span class="ruby-identifier">response</span>[<span class="ruby-string">&#39;domain&#39;</span>][<span class="ruby-string">&#39;sockets&#39;</span>][<span class="ruby-string">&#39;Socket&#39;</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-order_list" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">order_list</span><span
+            class="method-args">(user:, per_page: 10, page: 1)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>List all orders the user specified has placed.</p>
+
+<p>Required arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>user</code>
+<dd>
+<p><strong>String</strong> The ID of the user making the request from your
+system</p>
+</dd></dl>
+</li></ul>
+
+<p>Optional arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>per_page</code>
+<dd>
+<p><strong>Integer</strong> The number of results to show per page, defaults
+to 10</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>page</code>
+<dd>
+<p><strong>Integer</strong> The page number of results to show, defaults to 1</p>
+</dd></dl>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="order_list-source">
+            <pre><span class="ruby-comment"># File lib/whapps/catalogapi.rb, line 335</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">order_list</span>(<span class="ruby-identifier">user</span>,, <span class="ruby-identifier">per_page</span><span class="ruby-operator">:</span> <span class="ruby-value">10</span>, <span class="ruby-identifier">page</span><span class="ruby-operator">:</span> <span class="ruby-value">1</span>)
+  <span class="ruby-identifier">clean_list</span> = <span class="ruby-identifier">get_request</span>(<span class="ruby-identifier">method</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;order_list&#39;</span>,
+                           <span class="ruby-identifier">query</span><span class="ruby-operator">:</span>  { <span class="ruby-string">&#39;external_user_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">user</span>, <span class="ruby-string">&#39;per_page&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">per_page</span>, <span class="ruby-string">&#39;page&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">page</span> })
+  <span class="ruby-identifier">orders</span> = <span class="ruby-identifier">clean_list</span>[<span class="ruby-string">&#39;orders&#39;</span>].<span class="ruby-identifier">delete</span>(<span class="ruby-string">&#39;OrderSummary&#39;</span>)
+  <span class="ruby-identifier">clean_list</span>[<span class="ruby-string">&#39;orders&#39;</span>] = <span class="ruby-identifier">orders</span>
+  <span class="ruby-identifier">clean_list</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-order_track" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">order_track</span><span
+            class="method-args">(order_number:)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Get the order item and tracking information.</p>
+
+<p>Required arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>order_number</code>
+<dd>
+<p><strong>String</strong> The order number you want tracking information for</p>
+</dd></dl>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="order_track-source">
+            <pre><span class="ruby-comment"># File lib/whapps/catalogapi.rb, line 347</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">order_track</span>(<span class="ruby-identifier">order_number</span>))
+  <span class="ruby-identifier">get_request</span>(<span class="ruby-identifier">method</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;order_track&#39;</span>,
+              <span class="ruby-identifier">query</span><span class="ruby-operator">:</span>  { <span class="ruby-string">&#39;order_number&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">order_number</span> })
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-redemption_active-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">redemption_active?</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns true if the selected account has redemption activated.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="redemption_active-3F-source">
+            <pre><span class="ruby-comment"># File lib/whapps/catalogapi.rb, line 69</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">redemption_active?</span>
+  <span class="ruby-identifier">response</span> = <span class="ruby-identifier">get_request</span>(<span class="ruby-identifier">method</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;redemption_active&#39;</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">response</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">==</span> <span class="ruby-value">1</span>
+  <span class="ruby-keyword">false</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-search_catalog" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">search_catalog</span><span
+            class="method-args">(socket:, search: nil, category_id: nil, min_points: nil, max_points: nil, per_page: 10, page: 1, sort: 'rank asc')</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Search the catalog on the selected socket.</p>
+
+<p>Required arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>socket</code>
+<dd>
+<p><strong>Integer</strong> The socket ID</p>
+</dd></dl>
+</li></ul>
+
+<p>Optional arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>search</code>
+<dd>
+<p><strong>String</strong> Search for the specified string in the catalog</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>category_id</code>
+<dd>
+<p><strong>Integer</strong> Search for results only under this category id</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>min_points</code>
+<dd>
+<p><strong>Integer</strong> Search for results that cost at least this many
+points</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>max_points</code>
+<dd>
+<p><strong>Integer</strong> Search for results that cost no more than this
+many points</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>per_page</code>
+<dd>
+<p><strong>Integer</strong> The number of results to show per page, defaults
+to 10</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>page</code>
+<dd>
+<p><strong>Integer</strong> The page number of results to show, defaults to 1</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>sort</code>
+<dd>
+<p><strong>String</strong> The sort order to use, see the portal docs for
+valid sort orders</p>
+</dd></dl>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="search_catalog-source">
+            <pre><span class="ruby-comment"># File lib/whapps/catalogapi.rb, line 103</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">search_catalog</span>(<span class="ruby-identifier">socket</span>,, <span class="ruby-identifier">search</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">category_id</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">min_points</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">max_points</span><span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>,
+                   <span class="ruby-identifier">per_page</span><span class="ruby-operator">:</span> <span class="ruby-value">10</span>, <span class="ruby-identifier">page</span><span class="ruby-operator">:</span> <span class="ruby-value">1</span>, <span class="ruby-identifier">sort</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;rank asc&#39;</span>)
+  <span class="ruby-identifier">search_args</span> = { <span class="ruby-string">&#39;socket_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">socket</span>, <span class="ruby-string">&#39;search&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">search</span>, <span class="ruby-string">&#39;category_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">category_id</span>,
+                  <span class="ruby-string">&#39;min_points&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">min_points</span>, <span class="ruby-string">&#39;max_points&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">max_points</span>, <span class="ruby-string">&#39;per_page&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">per_page</span>,
+                  <span class="ruby-string">&#39;page&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">page</span>, <span class="ruby-string">&#39;sort&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">sort</span> }
+  <span class="ruby-identifier">response</span> = <span class="ruby-identifier">get_request</span>(<span class="ruby-identifier">method</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;search_catalog&#39;</span>, <span class="ruby-identifier">query</span><span class="ruby-operator">:</span> <span class="ruby-identifier">search_args</span>)
+  <span class="ruby-identifier">response</span>[<span class="ruby-string">&#39;items&#39;</span>][<span class="ruby-string">&#39;CatalogItem&#39;</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-view_item" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">view_item</span><span
+            class="method-args">(socket:, catalog_item_id:)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>View a specific item by ID.</p>
+
+<p>Required arguments</p>
+<ul><li><dl class="rdoc-list note-list"><dt><code>socket</code>
+<dd>
+<p><strong>Integer</strong> The socket ID</p>
+</dd></dl>
+</li><li><dl class="rdoc-list note-list"><dt><code>catalog_item_id</code>
+<dd>
+<p><strong>Integer</strong> The item ID to view</p>
+</dd></dl>
+</li></ul>
+          
+          
+
+          
+          <div class="method-source-code" id="view_item-source">
+            <pre><span class="ruby-comment"># File lib/whapps/catalogapi.rb, line 117</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">view_item</span>(<span class="ruby-identifier">socket</span>,, <span class="ruby-identifier">catalog_item_id</span>))
+  <span class="ruby-identifier">response</span> = <span class="ruby-identifier">get_request</span>(<span class="ruby-identifier">method</span><span class="ruby-operator">:</span> <span class="ruby-string">&#39;view_item&#39;</span>,
+                         <span class="ruby-identifier">query</span><span class="ruby-operator">:</span>  { <span class="ruby-string">&#39;socket_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">socket</span>, <span class="ruby-string">&#39;catalog_item_id&#39;</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">catalog_item_id</span> })
+  <span class="ruby-identifier">response</span>[<span class="ruby-string">&#39;item&#39;</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.1.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+
