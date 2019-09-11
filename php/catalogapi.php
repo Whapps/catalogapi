@@ -12,7 +12,6 @@ class CatalogAPI
         $this->sub_domain = $sub_domain;
         $this->secret_key = $secret_key;
         $this->is_prod = $is_prod;
-        $this->error = NULL;
         $this->server_error = "";
         $this->client_error = "";
     }
@@ -354,10 +353,232 @@ class CatalogAPI
     }
 
 
+
+    /*
+        Function: cart_unlock
+
+        Adds a shipping address to the cart
+
+        $args = array(
+          socket_id => $socket_id,
+          external_user_id => 'johndoe123'
+        );
+
+        $cart_unlock_response = $api->cart_unlock($args);
+
+        print "{$cart_unlock_response['description']}\n";
+    */
+    function cart_unlock($args)
+    {
+        $response = $this->_make_request("cart_unlock", $args);
+        $ref = $response["cart_unlock_response"]["cart_unlock_result"];
+        $this->_validate_response($ref["credentials"]);
+
+        return $ref;
+    }
+
+
+
+    /*
+        Function: cart_view
+
+        Returns the current address and items in the cart.
+
+        This method can also be used to validate the cart.
+        While you can use the cart_validate method for this purpose,
+        cart_validate will simply return a single error message if the cart is invalid.
+        You can use the results from the cart_view method to find all of
+        the problems with a cart in order to display helpful feedback to the user.
+
+        In order for a cart to be vaild, it must have:
+
+        - An address
+        - At least one item
+        - All items must be available (as specified through the is_available field on each item)
+        - All of the item's cart_price values must be less than or equal to the catalog_price values
+
+        $args = array(
+            socket_id => $socket_id,
+            external_user_id => 'johndoe123'
+        );
+
+        $cart_view_response = $api->cart_view($args);
+
+        if ( !$cart_view_response["first_name"] )
+        {
+            echo "The cart must have an address to place an order.";
+        }
+        else
+        {
+            echo "Viewing cart for {$cart_view_response['first_name']} {$cart_view_response['last_name']}\n";
+        }
+
+        echo "cart version: {$cart_view_response['cart_version']}" . "\n";
+        echo "cart is locked?:" . ($cart_view_response['locked'] ? 'yes' : 'no') . "\n";
+
+        # note that this code will only show a single error
+        # when there are multiple quantities of the same item
+
+        $errors = array();
+        $has_item = 0;
+        $items_list = &$cart_view_response["items"]["CartItem"];
+        foreach($items_list as &$cart_item)
+        {
+            $has_item = 1;
+            if(!$cart_item["is_available"])
+            {
+                $errors[] = array($cart_item[name] => "item is no longer available");
+            }
+            if ($cart_item["catalog_price"] > $cart_item["cart_price"])
+            {
+                $errors[] = array($cart_item[name] => "the item has gone up in price, please remove then re-add the item");
+            }
+        }
+        if (!$has_item)
+        {
+            echo "The must contain at least one item to place an order.\n";
+        }
+        if (count($errors))
+        {
+            foreach($errors as $key => $value)
+            {
+                echo "There is a problem with the item: {$key} - {$value}\n";
+            }
+        }
+
+        As a convenience, all of the cart errors will be in $cart_view_response["errors"].
+
+        if ($cart_view_response["errors"])
+        {
+            echo "The cart contains errors.\n";
+
+            foreach($cart_view_response["errors"] as $error)
+            {
+                echo $error["error"] . "\n";
+
+                # you could also automatically remove invalid items here...
+                if ($error["catalog_item_id"])
+                {
+                    $remove_item_args = array(
+                        socket_id => $socket_id,
+                        external_user_id => 'johndoe123',
+                        catalog_item_id => $error["catalog_item_id"],
+                        option_id => $error["option_id"]
+                    );
+                    $api->cart_remove_item($remove_item_args);
+                }
+            }
+        }
+        else
+        {
+            print "The cart is valid.\n";
+        }
+    */
+    function cart_view($args)
+    {
+        $response = $this->_make_request("cart_view", $args);
+        $ref = $response["cart_view_response"]["cart_view_result"];
+        $this->_validate_response($ref["credentials"]);
+
+        $errors = array();
+
+        $total_points = 0;
+        $total_cost = 0;
+
+        $has_item = 0;
+        $items_list = &$ref["items"]["CartItem"];
+        foreach($items_list as &$cart_item)
+        {
+            $item_is_valid = 1;
+
+            if(!$cart_item["is_available"])
+            {
+                $errors[] = array(
+                    error => "Item is not longer available: {$cart_item['name']}",
+                    catalog_item_id => $cart_item["catalog_item_id"],
+                    option_id => $cart_item["option_id"]
+                );
+                $item_is_valid = 0;
+            }
+
+            if($cart_item["catalog_price"] > $cart_item["cart_price"])
+            {
+                $errors[] = array(
+                    error => "The item has gone up in price since it was added to the cart, please remove then re-add the item: {$cart_item['name']}",
+                    catalog_item_id => $cart_item["catalog_item_id"],
+                    option_id => $cart_item["option_id"]
+                );
+                $item_is_valid = 0;
+            }
+
+            $has_item = 1;
+            $cart_item["item_is_valid"] = $item_is_valid;
+
+            $total_points += ( $cart_item["points"] * $cart_item["quantity"] );
+            $total_cost += ( $cart_item["catalog_price"] * $cart_item["quantity"] );
+        }
+
+        $ref["total_points"] = $total_points;
+        $ref["total_cost"] = $total_cost;
+
+        if(!$has_item)
+        {
+            $errors[] = "The cart must contain at least one item to place an order";
+        }
+
+        $ref["has_item_errors"] = count($errors) ? 1 : 0;
+
+        if(!$ref["first_name"])
+        {
+            $errors[] = array(
+              error => "The cart must have an address to place an order"
+            );
+        }
+
+        $ref["is_valid"] = count($errors) ? 0 : 1;
+
+        $ref["errors"] = $errors;
+
+        return $ref;
+    }
+
+
+
+    /*
+        Function: cart_order_place
+
+        Adds a shipping address to the cart
+
+        $args = array(
+          socket_id => $socket_id,
+          external_user_id => 'johndoe123',
+          cart_version => $cart_version # optional - this is the cart_version from the cart_view method
+        );
+
+        $order_number = $api->cart_order_place($args);
+
+        print "the order was created with the order_number: {$order_number}\n";
+    */
+    function cart_order_place($args)
+    {
+        $response = $this->_make_request("cart_order_place", $args);
+        $ref = $response["cart_order_place_response"]["cart_order_place_result"];
+        $this->_validate_response($ref["credentials"]);
+
+        return $ref["order_number"];
+    }
+
+
+
+    /*
+        Section: ORDER METHODS
+    */
+
+
+
     function _make_request($method, $args = array())
     {
         $data = NULL;
-        $this->error = NULL;
         $this->_reset_errors();
 
         $die_on_fault;

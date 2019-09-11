@@ -29,6 +29,7 @@ else
 
     // $catalog_item_id = $search["items"]["CatalogItem"][0]["catalog_item_id"] . "\n";
     $catalog_item_id = 2386886;
+    $order_number = '9658-02828-19455-0001';
 
     // $view_item = $catalogapi->view_item($socket_id, $catalog_item_id);
     // print var_dump($view_item);
@@ -67,23 +68,14 @@ else
     $cart_set_item_quantity = $catalogapi->cart_set_item_quantity($add_item_args);
     print "{$cart_set_item_quantity['description']}\n";
 
-
     $catalog_args = array(
         socket_id => $socket_id,
-        external_user_id => 'johndoe123',
-        locked => 0
+        external_user_id => 'johndoe123'
     );
 
-    $error = $catalogapi->cart_validate($catalog_args);
+    $order_number = $catalogapi->cart_order_place($catalog_args);
+    print "$order_number\n";
 
-    if ($error)
-    {
-        echo "the cart is invalid: $error";
-    }
-    else
-    {
-        print "the cart is valid\n";
-    }
 
 
     // unset($add_item_args[quantity]);
