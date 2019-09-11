@@ -29,52 +29,40 @@ else
 
     // $catalog_item_id = $search["items"]["CatalogItem"][0]["catalog_item_id"] . "\n";
     $catalog_item_id = 2386886;
-    $order_number = '9658-02828-19455-0001';
+    // $order_number = '9658-02828-19455-0001';
 
-    // $view_item = $catalogapi->view_item($socket_id, $catalog_item_id);
+    // $view_item = $catalogapi->view_item(array(socket_id => $socket_id, catalog_item_id => $catalog_item_id));
     // print var_dump($view_item);
 
-    $address_set = array(
-      socket_id => $socket_id,
-      external_user_id => 'johndoe123',
-      first_name => 'John',
-      last_name => 'Doe',
-      address_1 => '201 East Fourth Street',
-      address_2 => 'Suite 1850',
-      city => 'Cincinnati',
-      state_province => 'OH',
-      postal_code => '45202',
-      country => 'US',
-      email => 'johndoe123@example.com',
-      phone_number => '123-555-6789'
-    );
-
     $add_item_args = array(
-        socket_id => $socket_id,
-        external_user_id => 'johndoe123',
         catalog_item_id => $catalog_item_id,
         quantity => 1,
+        currency => "USD",
+        catalog_price => 25.00,
         option_id => NULL
     );
 
-    $cart_set_address = $catalogapi->cart_set_address($address_set);
-    print "{$cart_set_address['description']}\n";
-
-    $cart_add_item = $catalogapi->cart_add_item($add_item_args);
-    print "{$cart_add_item['description']}\n";
-
-    $add_item_args[quantity] = 2;
-
-    $cart_set_item_quantity = $catalogapi->cart_set_item_quantity($add_item_args);
-    print "{$cart_set_item_quantity['description']}\n";
-
-    $catalog_args = array(
+    $args = array(
         socket_id => $socket_id,
-        external_user_id => 'johndoe123'
+        external_user_id => 'johndoe123',
+        first_name => 'John',
+        last_name => 'Doe',
+        address_1 => '201 East Fourth Street',
+        address_2 => 'Suite 1850',
+        city => 'Cincinnati',
+        state_province => 'OH',
+        postal_code => '45202',
+        country => 'US',
+        email => 'johndoe123@example.com',
+        phone_number => '123-555-6789',
+        items => array(
+            $add_item_args
+        )
     );
 
-    $order_number = $catalogapi->cart_order_place($catalog_args);
-    print "$order_number\n";
+
+    $order_number = $catalogapi->order_place($args);
+    print "the order was created with the order_number: $order_number\n";
 
 
 

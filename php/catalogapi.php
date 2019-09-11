@@ -574,6 +574,53 @@ class CatalogAPI
         Section: ORDER METHODS
     */
 
+    /*
+        Function: order_place
+
+        This creates an order in the system without using a cart.
+
+        It returns the order_number on success or dies on failure.
+
+        $args = array(
+            socket_id => $socket_id,
+            external_user_id => 'johndoe123',
+            external_order_number => $unique_order_number_from_your_system,
+
+            first_name => 'John',
+            last_name => 'Doe',
+            address_1 => '123 Test St.',
+            address_2 => 'Apt. B',
+            city => 'Cincinnati',
+            state_province => 'OH',
+            postal_code => '00000',
+            country => 'US',
+            email => 'johndoe123@example.com',
+            phone_number => '123-555-6789',
+            items => array(
+                array(
+                    catalog_item_id => 1,
+                    quantity => 1,
+                    currency => "USD",
+                    catalog_price => 0.00,
+                    option_id => 123
+                )
+            )
+        );
+
+        $order_number = $api->order_place($args);
+        print "the order was created with the order_number: $order_number\n";
+
+    */
+    function order_place($args)
+    {
+        $response = $this->_create_order($args);
+        $ref = $response["order_place_response"]["order_place_result"];
+        print_r($response);
+        $this->_validate_response($ref["credentials"]);
+
+        return $ref["order_number"];
+    }
+
 
 
     function _make_request($method, $args = array())
@@ -680,6 +727,8 @@ class CatalogAPI
             uuid => $creds[creds_uuid]
         );
 
+        // print_r($order_ref);
+
         $url = "https://" . $this->sub_domain . ($this->is_prod ? ".prod" : ".dev") . ".catalogapi.com/v1/json/$method/";
 
         $payload = json_encode($order_ref);
@@ -688,18 +737,20 @@ class CatalogAPI
 
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLINFO_HEADER_OUT, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+
+        $header = array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($payload),
+            'Content: ' . $payload
+        );
 
         // Set HTTP Header for POST request
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json',
-            'Content-Length: ' . strlen($payload))
-        );
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 
         $result = curl_exec($ch);
         $curl_errno = curl_errno($ch);
+        $curl_error = curl_error($ch);
         curl_close($ch);
 
         try
@@ -729,8 +780,9 @@ class CatalogAPI
             {
                 $this->server_error = $data["Fault"]["faultstring"];
             }
-
+            echo $curl_error . "\n";
             die($data["Fault"]["faultcode"] . ": " . $data["Fault"]["faultstring"] . "\n");
+
         }
     }
 
@@ -812,7 +864,7 @@ class CatalogAPI
 
         if($their_checksum != $our_checksum)
         {
-            echo "the returned checksum is invalid";
+            echo "the returned checksum is invalid\n";
         }
 
         return;
