@@ -315,7 +315,7 @@ class CatalogAPI
         $args = array(
           socket_id => $socket_id,
           external_user_id => 'johndoe123',
-          locked =>0
+          locked => 0
         );
 
         $error = $api->cart_validate($args);
@@ -331,12 +331,26 @@ class CatalogAPI
     */
     function cart_validate($args)
     {
-        $args["die_on_default"] = 0;
+        $args["die_on_default"] = 1;
         $response = $this->_make_request("cart_validate", $args);
-        $ref = $response["cart_set_address_response"]["cart_set_address_result"];
-        $this->_validate_response($ref["credentials"]);
 
-        return $ref;
+        if($response["Fault"])
+        {
+            if($response["Fault"]["faultcode"] == 'Client.APIError')
+            {
+                return $response["Fault"]["faultstring"];
+            }
+            else
+            {
+                die($response["Fault"]["faultcode"] . ": " . $response["Fault"]["faultstring"] . "\n");
+            }
+        }
+        else
+        {
+            $ref = $response["cart_validate_response"]["cart_validate_result"];
+            $this->_validate_response($ref["credentials"]);
+            return;
+        }
     }
 
 
@@ -356,6 +370,7 @@ class CatalogAPI
 
         $url = "https://" . $this->sub_domain . ($this->is_prod ? ".prod" : ".dev") . ".catalogapi.com/v1/rest/$method/?";
         $url .= $this->_generate_checksum_args($method);
+
         foreach ($args as $key => $value)
         {
             $url .= "&$key=" . rawurlencode($value);
@@ -363,12 +378,33 @@ class CatalogAPI
 
         // print("URL:" . $url . "\n");
 
+        $meta = array();
+        if(isset($args[meta]))
+        {
+            foreach($args[meta] as $key => $value)
+            {
+                $value = mb_detect_encoding($value, 'UTF-8') ? utf8_encode($value) : $value;
+
+                if(substr($key, 0, strlen('x-meta')) === 'x-meta')
+                {
+                    $meta[] = "{$key}: {$value}";
+                }
+                else
+                {
+                    $meta[] = "x-meta-{$key}: {$value}";
+                }
+            }
+        }
+
         $ch = curl_init( $url );
 
-        curl_setopt($ch,CURLOPT_TIMEOUT,30);
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $meta);
 
         $result = curl_exec($ch);
+        $curl_errno = curl_errno($ch);
+        curl_close($ch);
 
         try
         {
@@ -379,9 +415,8 @@ class CatalogAPI
             die("invalid response: " . $ex->getMessage());
         }
 
-        if(!curl_errno($ch) || !$die_on_fault)
+        if(!$curl_errno || !$die_on_fault)
         {
-            curl_close($ch);
             return $data;
         }
         else
@@ -390,8 +425,7 @@ class CatalogAPI
             {
                 echo $data["Fault"]["detail"];
             }
-
-            if($data["Fault"]["faultcode"])
+            if(strpos($data["Fault"]["faultcode"], 'Client'))
             {
                 $this->client_error = $data["Fault"]["faultstring"];
             }

@@ -67,15 +67,34 @@ else
     $cart_set_item_quantity = $catalogapi->cart_set_item_quantity($add_item_args);
     print "{$cart_set_item_quantity['description']}\n";
 
-    unset($add_item_args[quantity]);
 
-    $cart_remove_item = $catalogapi->cart_remove_item($add_item_args);
-    print "{$cart_remove_item['description']}\n";
+    $catalog_args = array(
+        socket_id => $socket_id,
+        external_user_id => 'johndoe123',
+        locked => 0
+    );
 
-    unset($add_item_args[catalog_item_id]);
+    $error = $catalogapi->cart_validate($catalog_args);
 
-    $cart_empty = $catalogapi->cart_empty($add_item_args);
-    print "{$cart_empty['description']}\n";
+    if ($error)
+    {
+        echo "the cart is invalid: $error";
+    }
+    else
+    {
+        print "the cart is valid\n";
+    }
+
+
+    // unset($add_item_args[quantity]);
+    //
+    // $cart_remove_item = $catalogapi->cart_remove_item($add_item_args);
+    // print "{$cart_remove_item['description']}\n";
+    //
+    // unset($add_item_args[catalog_item_id]);
+    //
+    // $cart_empty = $catalogapi->cart_empty($add_item_args);
+    // print "{$cart_empty['description']}\n";
 
 
 }
