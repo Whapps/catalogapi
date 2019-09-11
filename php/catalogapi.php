@@ -657,7 +657,81 @@ class CatalogAPI
 
             die($data["Fault"]["faultcode"] . ": " . $data["Fault"]["faultstring"] . "\n");
         }
+    }
 
+    function _create_order($order_args = array())
+    {
+        $data = NULL;
+        $this->_reset_errors();
+
+        $method = 'order_place';
+        $creds = $this->_generate_creds($method);
+
+        $order_ref = array(
+            order_place => array(
+                order_place_request => $order_args
+            )
+        );
+
+        $order_ref[order_place][order_place_request][credentials] = array (
+            method => $method,
+            checksum => $creds[creds_checksum],
+            datetime => $creds[creds_datetime],
+            uuid => $creds[creds_uuid]
+        );
+
+        $url = "https://" . $this->sub_domain . ($this->is_prod ? ".prod" : ".dev") . ".catalogapi.com/v1/json/$method/";
+
+        $payload = json_encode($order_ref);
+
+        $ch = curl_init( $url );
+
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLINFO_HEADER_OUT, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+
+        // Set HTTP Header for POST request
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($payload))
+        );
+
+        $result = curl_exec($ch);
+        $curl_errno = curl_errno($ch);
+        curl_close($ch);
+
+        try
+        {
+            $data = json_decode($result, true); // true here returns arrays instead of objects
+        }
+        catch (Exception $ex)
+        {
+            die("invalid response: " . $ex->getMessage());
+        }
+
+        if(!$curl_errno)
+        {
+            return $data;
+        }
+        else
+        {
+            if($data["Fault"]["detail"])
+            {
+                echo $data["Fault"]["detail"];
+            }
+            if(strpos($data["Fault"]["faultcode"], 'Client'))
+            {
+                $this->client_error = $data["Fault"]["faultstring"];
+            }
+            else
+            {
+                $this->server_error = $data["Fault"]["faultstring"];
+            }
+
+            die($data["Fault"]["faultcode"] . ": " . $data["Fault"]["faultstring"] . "\n");
+        }
     }
 
     function has_error()
@@ -670,6 +744,25 @@ class CatalogAPI
         $this->server_error = "";
         $this->client_error = "";
         return;
+    }
+
+    function _generate_creds($method)
+    {
+        $message_id = $this->_get_guid();
+
+        $now_datetime = new DateTime('NOW', new DateTimeZone('UTC'));
+        $now_string = $now_datetime->format('Y-m-d H:i:s');
+
+
+        $digest_string = "$method$message_id$now_string";
+
+        $checksum = base64_encode( hash_hmac("sha1", $digest_string, $this->secret_key, TRUE) );
+
+        return array(
+            creds_datetime => $now_string,
+            creds_uuid => $message_id,
+            creds_checksum => $checksum
+        );
     }
 
     function _generate_checksum_args($method)
