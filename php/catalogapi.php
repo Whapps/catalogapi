@@ -615,13 +615,113 @@ class CatalogAPI
     {
         $response = $this->_create_order($args);
         $ref = $response["order_place_response"]["order_place_result"];
-        print_r($response);
         $this->_validate_response($ref["credentials"]);
 
         return $ref["order_number"];
     }
 
 
+
+    /*
+        Function: order_track
+
+        $args = array(
+            order_number => $order_number_from_order_place
+        );
+        my $order = $api->order_track($args);
+
+        print "this is an order for {$order['first_name']} {$order['last_name']}\n";
+
+        foreach my $order_item (@{ $order->{items}->{OrderItem} })
+        {
+            print "found order item: $order_item->{name} ($order_item->{order_item_status})\n";
+        }
+
+        foreach my $fulfillment (@{ $order->{fulfillments}->{Fulfillment} })
+        {
+            print "found fulfillment created on $fulfillment->{fulfillment_date}\n";
+            foreach my $metadata (@{ $fulfillment->{metadata}->{Meta} })
+            {
+                print "\t$metadata->{key}: $metadata->{value} [$metadata->{uri}]\n";
+            }
+            foreach my $fulfillment_item (@{ $fulfillment->{items}->{FulfillmentItem} })
+            {
+                print "\tfulfillment includes the item: $fulfillment_item->{name}\n";
+            }
+        }
+
+    */
+    function order_track($args)
+    {
+        $response = $this->_make_request("order_track", $args);
+        $ref = $response["order_track_response"]["order_track_result"];
+        $this->_validate_response($ref["credentials"]);
+
+        $order = $ref["order"];
+
+        # make the fulfillment items have the same fields as those in the order_items
+        $order_items = array();
+
+        foreach($order["items"]["OrderItem"] as $order_item)
+        {
+            $order_items[$order_item["order_item_id"]] = $order_item;
+        }
+
+        foreach($order["fulfillments"]["Fulfillment"] as &$fulfillment)
+        {
+            $fulfillment_items = &$fulfillment["items"]["FulfillmentItem"];
+            $total_items = count($fulfillment_items);
+
+            for($i = 0; $i < $total_items; $i++)
+            {
+                $order_item_id = $fulfillments[$i]["order_item_id"];
+                $fulfillment_items[$i] = $order_items[$order_item_id];
+            }
+        }
+
+        return $order;
+    }
+
+
+
+    /*
+        Function: order_list
+
+        This method returns a list of order numbers
+        (the CatalogAPI order numbers, not external_order_number)
+        that match a given external_user_id
+
+        $args = array(
+            external_user_id => 'johndoe123',
+            per_page => 10,
+            page => 1
+        );
+        $order_list_response = $api->order_list($args);
+
+        $pager = $order_list_response["pager"];
+        print "Found {$pager['result_count']} orders. Currently on page {$pager['page']} of {$pager['last_page']}.\n";
+
+        $orders = $order_list_response["orders"]["OrderSummary"];
+        foreach($orders as $order)
+        {
+            print "found order {$order['order_number']} which was placed on {$order['date_placed']}\n";
+        }
+
+    */
+    function order_list($args)
+    {
+        $response = $this->_make_request("order_list", $args);
+        $ref = $response["order_list_response"]["order_list_result"];
+        $this->_validate_response($ref["credentials"]);
+
+        return $ref;
+    }
+
+
+
+    /*
+        Section: HELPER METHODS
+    */
 
     function _make_request($method, $args = array())
     {
@@ -715,38 +815,40 @@ class CatalogAPI
         $creds = $this->_generate_creds($method);
 
         $order_ref = array(
-            order_place => array(
-                order_place_request => $order_args
+            "order_place" => array(
+                "order_place_request" => $order_args
             )
         );
 
-        $order_ref[order_place][order_place_request][credentials] = array (
-            method => $method,
-            checksum => $creds[creds_checksum],
-            datetime => $creds[creds_datetime],
-            uuid => $creds[creds_uuid]
+        $order_ref["order_place"]["order_place_request"]["credentials"] = array (
+            "method" => $method,
+            "checksum" => $creds["creds_checksum"],
+            "datetime" => $creds["creds_datetime"],
+            "uuid" => $creds["creds_uuid"]
         );
-
-        // print_r($order_ref);
 
         $url = "https://" . $this->sub_domain . ($this->is_prod ? ".prod" : ".dev") . ".catalogapi.com/v1/json/$method/";
 
         $payload = json_encode($order_ref);
+
+        // echo "$url\n\n";
+        // echo "$payload\n\n";
 
         $ch = curl_init( $url );
 
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
 
         $header = array(
             'Content-Type: application/json',
-            'Content-Length: ' . strlen($payload),
-            'Content: ' . $payload
+            'Content-Length: ' . strlen($payload)
         );
 
         // Set HTTP Header for POST request
         curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+
 
         $result = curl_exec($ch);
         $curl_errno = curl_errno($ch);
@@ -756,6 +858,9 @@ class CatalogAPI
         try
         {
             $data = json_decode($result, true); // true here returns arrays instead of objects
+
+            print_r($data);
+            echo "\n\n";
         }
         catch (Exception $ex)
         {
@@ -786,7 +891,7 @@ class CatalogAPI
         }
     }
 
-    function has_error()
+    function _has_error()
     {
         return ($this->server_error || $this->client_error);
     }
@@ -811,9 +916,9 @@ class CatalogAPI
         $checksum = base64_encode( hash_hmac("sha1", $digest_string, $this->secret_key, TRUE) );
 
         return array(
-            creds_datetime => $now_string,
-            creds_uuid => $message_id,
-            creds_checksum => $checksum
+            "creds_datetime" => $now_string,
+            "creds_uuid" => $message_id,
+            "creds_checksum" => $checksum
         );
     }
 
@@ -870,5 +975,6 @@ class CatalogAPI
         return;
     }
 }
+
 
 ?>
