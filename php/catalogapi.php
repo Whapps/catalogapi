@@ -1,7 +1,5 @@
 <?php
 
-// THIS MODULE IS NOT YET COMPLETE
-
 class CatalogAPI
 {
     // subdomain: the first part of your SUBDOMAIN.dev.catalogapi.com domain
@@ -632,21 +630,21 @@ class CatalogAPI
 
         print "this is an order for {$order['first_name']} {$order['last_name']}\n";
 
-        foreach my $order_item (@{ $order->{items}->{OrderItem} })
+        foreach($order['items']['OrderItem'] as $order_item)
         {
-            print "found order item: $order_item->{name} ($order_item->{order_item_status})\n";
+            print "found order item: {$order_item['name']} ({$order_item['order_item_status']})\n";
         }
 
-        foreach my $fulfillment (@{ $order->{fulfillments}->{Fulfillment} })
+        foreach($order['fulfillments']['Fulfillment'] as $fulfillment)
         {
-            print "found fulfillment created on $fulfillment->{fulfillment_date}\n";
-            foreach my $metadata (@{ $fulfillment->{metadata}->{Meta} })
+            print "found fulfillment created on {$fulfillment['fulfillment_date']}\n";
+            foreach($fulfillment['metadata']['Meta'] as $metadata)
             {
-                print "\t$metadata->{key}: $metadata->{value} [$metadata->{uri}]\n";
+                print "\t{$metadata['key']}: {$metadata['value']} [{$metadata['uri']}]\n";
             }
-            foreach my $fulfillment_item (@{ $fulfillment->{items}->{FulfillmentItem} })
+            foreach($fulfillment['items']['FulfillmentItem'] as $fulfillment_item)
             {
-                print "\tfulfillment includes the item: $fulfillment_item->{name}\n";
+                print "\tfulfillment includes the item: {$fulfillment_item['name']}\n";
             }
         }
 
@@ -858,9 +856,6 @@ class CatalogAPI
         try
         {
             $data = json_decode($result, true); // true here returns arrays instead of objects
-
-            print_r($data);
-            echo "\n\n";
         }
         catch (Exception $ex)
         {
@@ -975,6 +970,5 @@ class CatalogAPI
         return;
     }
 }
-
 
 ?>
