@@ -5,7 +5,7 @@ defmodule Catalogapi do
   use Tesla
 
   plug Tesla.Middleware.Logger
-  plug Tesla.Middleware.DecodeJson
+  plug Tesla.Middleware.JSON
 
   @api_version "v1"
 
@@ -24,6 +24,47 @@ defmodule Catalogapi do
   def redemption_active?(opts \\ []) when is_list(opts) do
     {:ok, %Tesla.Env{} = env} = Catalogapi.redemption_active(opts)
     env.body == "1"
+  end
+
+  def order_place(
+    %{
+      socket_id: _socket_id,
+      items: _items,
+      last_name: _last_name,
+      postal_code: _postal_code,
+      city: _city,
+      first_name: _first_name,
+      state_province: _state_province,
+      country: _country,
+      address_1: _address_1
+    } = params,
+    opts \\ []
+  ) when is_list(opts) do
+    method = "order_place"
+
+    uri = "https://" <> endpoint(opts) <> "/" <> @api_version <> "/json/" <> method
+
+    uuid = UUID.uuid1()
+    datetime = DateTime.utc_now() |> DateTime.to_iso8601()
+    checksum = :crypto.hmac(:sha, secret_key(opts), method <> uuid <> datetime ) |> Base.encode64
+    # this is a little different than how its done in api_get, so we can't re-use generate_creds :(
+    body = %{
+      method => %{
+        method <> "_request" => params |> Map.merge(
+          %{
+            credentials: %{
+              method: method,
+              uuid: uuid,
+              checksum: checksum,
+              datetime: datetime
+            }
+          }
+        )
+      }
+    }
+
+    post(uri, body, opts: [adapter: hackney_opts()] )
+    |> unwrap_extra_maps(method: method)
   end
 
   def api_get(%{method: method} = params, opts \\ []) when is_list(opts) do
