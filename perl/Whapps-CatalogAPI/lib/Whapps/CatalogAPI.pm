@@ -147,9 +147,24 @@ sub catalog_breakdown
 
     my $catalog_marketing_response = $api->catalog_marketing(
         socket_id => $socket_id,
-        page      => 'shop' );
+        store     => 'shop' );
 
-    TODO add its output/usage
+    # see if there is any content to display
+    if (exists $catalog_marketing_response->{marketing})
+    {
+        my $marketing_data = decode_json($catalog_marketing_response->{marketing});
+        $marketing_data->{items} = [];
+        foreach my $item ( @{$marketing->{items}->{CatalogItem}} )
+        {
+            push(@{$marketing_data->{items}},$item);
+        }
+        $self->tree_append( tag => 'marketing', data => $marketing_data );
+    }
+    # if there is no marketing content, just load page one of the items as
+    # usual
+    else
+    {
+        ...
 
 =cut
 
