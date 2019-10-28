@@ -133,11 +133,46 @@ sub list_available_catalogs
     }
     
 =cut
+
 sub catalog_breakdown
 {
     my ($self, %args) = @_;
     my $response = $self->_make_get_request( method => 'catalog_breakdown', %args );
     my $ref = $response->{catalog_breakdown_response}->{catalog_breakdown_result};
+    $self->_validate_response($ref->{credentials});
+    return $ref;
+}
+
+=head2 catalog_marketing
+
+    my $catalog_marketing_response = $api->catalog_marketing(
+        socket_id => $socket_id,
+        store     => 'shop' );
+
+    # see if there is any content to display
+    if (exists $catalog_marketing_response->{marketing})
+    {
+        my $marketing_data = decode_json($catalog_marketing_response->{marketing});
+        $marketing_data->{items} = [];
+        foreach my $item ( @{$marketing->{items}->{CatalogItem}} )
+        {
+            push(@{$marketing_data->{items}},$item);
+        }
+        $self->tree_append( tag => 'marketing', data => $marketing_data );
+    }
+    # if there is no marketing content, just load page one of the items as
+    # usual
+    else
+    {
+        ...
+
+=cut
+
+sub catalog_marketing
+{
+    my ($self, %args) = @_;
+    my $response = $self->_make_get_request( method => 'catalog_marketing', %args );
+    my $ref = $response->{catalog_marketing_response}->{catalog_marketing_result};
     $self->_validate_response($ref->{credentials});
     return $ref;
 }
