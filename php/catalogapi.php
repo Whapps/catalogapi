@@ -735,7 +735,7 @@ class CatalogAPI
         }
 
         $url = "https://" . $this->sub_domain . ($this->is_prod ? ".prod" : ".dev") . ".catalogapi.com/v1/rest/$method/?";
-        $url .= $this->_generate_checksum_args($method);
+        $url .= http_build_query($this->_generate_creds($method));
 
         foreach ($args as $key => $value)
         {
@@ -829,9 +829,6 @@ class CatalogAPI
 
         $payload = json_encode($order_ref);
 
-        // echo "$url\n\n";
-        // echo "$payload\n\n";
-
         $ch = curl_init( $url );
 
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
@@ -900,7 +897,7 @@ class CatalogAPI
 
     function _generate_creds($method)
     {
-        $message_id = $this->_get_guid();
+        $message_id = $this->_get_uuid();
 
         $now_datetime = new DateTime('NOW', new DateTimeZone('UTC'));
         $now_string = $now_datetime->format('Y-m-d H:i:s');
@@ -917,42 +914,28 @@ class CatalogAPI
         );
     }
 
-    function _generate_checksum_args($method)
+    function _get_uuid()
     {
-        $message_id = $this->_get_guid();
+        return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
 
-        $now_datetime = new DateTime('NOW', new DateTimeZone('UTC'));
-        $now_string = $now_datetime->format('Y-m-d H:i:s');
+            // 32 bits for "time_low"
+            mt_rand(0, 0xffff), mt_rand(0, 0xffff),
 
-        #print "NOW: $now_string\n";
+            // 16 bits for "time_mid"
+            mt_rand(0, 0xffff),
 
-        $digest_string = "$method$message_id$now_string";
+            // 16 bits for "time_hi_and_version",
+            // four most significant bits holds version number 4
+            mt_rand(0, 0x0fff) | 0x4000,
 
-        $checksum = base64_encode( hash_hmac("sha1", $digest_string, $this->secret_key, TRUE) );
+            // 16 bits, 8 bits for "clk_seq_hi_res",
+            // 8 bits for "clk_seq_low",
+            // two most significant bits holds zero and one for variant DCE1.1
+            mt_rand(0, 0x3fff) | 0x8000,
 
-        return "creds_datetime=" . rawurlencode($now_string)
-            . "&creds_uuid=" . rawurlencode($message_id)
-            . "&creds_checksum=" . rawurlencode($checksum);
-    }
-
-    function _get_guid()
-    {
-        if (function_exists('com_create_guid'))
-        {
-            return substr(com_create_guid(), 1, 36);
-        }
-        else
-        {
-            mt_srand((double)microtime()*10000); //optional for php 4.2.0 and up.
-            $charid = strtoupper(md5(uniqid(rand(), true)));
-            $hyphen = chr(45); // "-"
-            $uuid = substr($charid, 0, 8).$hyphen
-                .substr($charid, 8, 4).$hyphen
-                .substr($charid,12, 4).$hyphen
-                .substr($charid,16, 4).$hyphen
-                .substr($charid,20,12);
-            return $uuid;
-        }
+            // 48 bits for "node"
+            mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+        );
     }
 
     function _validate_response($creds)

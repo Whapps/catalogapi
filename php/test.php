@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(E_ERROR | E_PARSE);
+
 require_once 'catalogapi.php';
 
 // usage: php test.php -d testco -k 'mysecretkey'
