@@ -15,6 +15,18 @@ __PACKAGE__->meta->setup(
     ],
 
     primary_key_columns => [ 'catalog_item_id', 'category_id' ],
+
+    foreign_keys => [
+        catalog_items => {
+            class       => 'CatalogAPI::SQLite::CatalogItem',
+            key_columns => { catalog_item_id => 'id' },
+        },
+
+        categories => {
+            class       => 'CatalogAPI::SQLite::Category',
+            key_columns => { category_id => 'id' },
+        },
+    ],       
 );
 
 1;

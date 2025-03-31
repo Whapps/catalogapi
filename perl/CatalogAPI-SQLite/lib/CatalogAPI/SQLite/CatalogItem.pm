@@ -61,7 +61,6 @@ __PACKAGE__->meta->setup(
             map_to    => 'tags',
             type      => 'many to many',
         },
-
     ],
 );
 

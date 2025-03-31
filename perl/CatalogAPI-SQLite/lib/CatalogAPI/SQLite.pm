@@ -48,7 +48,7 @@ INIT
     require CatalogAPI::SQLite::Search::Manager;
     require CatalogAPI::SQLite::Tag::Manager;
     require CatalogAPI::SQLite::TagCategory::Manager;
-}
+};
 
 =head2 new
 
