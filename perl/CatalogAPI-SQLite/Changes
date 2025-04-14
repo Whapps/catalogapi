@@ -1,0 +1,6 @@
+Revision history for Perl extension CatalogAPI::SQLite.
+
+0.01  Mon Mar 31 15:42:55 2025
+	- original version; created by h2xs 1.23 with options
+		-AX -n CatalogAPI::SQLite
+
