@@ -44,10 +44,10 @@ __PACKAGE__->meta->setup(
     ],
 
     relationships => [
-        supplier_prices => {
+        supplier_price => {
             class      => 'CatalogAPI::SQLite::CatalogItemSupplierPrice',
             column_map => { id => 'catalog_item_id' },
-            type       => 'one to many',
+            type       => 'one to one',
         },
         categories => {
             map_class => 'CatalogAPI::SQLite::CatalogItemCategory',
