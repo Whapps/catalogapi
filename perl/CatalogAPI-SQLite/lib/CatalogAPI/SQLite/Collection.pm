@@ -10,11 +10,12 @@ __PACKAGE__->meta->setup(
     init_db => CatalogAPI::SQLite->new(),
     
     columns => [
-        tag_id         => { type => 'integer' },
-        brand_id       => { type => 'integer' },
-        category_id    => { type => 'integer' },
-        name           => { type => 'varchar', length => 255, not_null => 1 },
-        marketing_json => { type => 'text' },
+        tag_id          => { type => 'integer' },
+        brand_id        => { type => 'integer' },
+        category_id     => { type => 'integer' },
+        catalog_item_id => { type => 'integer' },
+        name            => { type => 'varchar', length => 255, not_null => 1 },
+        marketing_json  => { type => 'text' },
     ],
 
     primary_key_columns => [ 'tag_id', 'brand_id', 'category_id' ],
@@ -28,6 +29,10 @@ __PACKAGE__->meta->setup(
             class       => 'CatalogAPI::SQLite::Category',
             key_columns => { category_id => 'id' },
         },
+        catalog_item => {
+            class       => 'CatalogAPI::SQLite::CatalogItem',
+            key_columns => { catalog_item_id => 'id' },
+        },        
         tag => {
             class       => 'CatalogAPI::SQLite::Tag',
             key_columns => { tag_id => 'id' },
