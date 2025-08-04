@@ -40,7 +40,8 @@ __PACKAGE__->meta->setup(
         supplier_currency          => { type => 'varchar', length   => 3, not_null => 1 },
         supplier_retail_price      => { type => 'scalar', not_null => 1 },
         supplier_shipping_estimate => { type => 'scalar', not_null => 1 },
-        item_type_id               => { type => 'integer', not_null => 1 }
+        item_type_id               => { type => 'integer', not_null => 1 },
+        supplier_reference_id      => { type => 'varchar', length   => 255, not_null => 1 },
     ],
 
     primary_key_columns => ['id'],
