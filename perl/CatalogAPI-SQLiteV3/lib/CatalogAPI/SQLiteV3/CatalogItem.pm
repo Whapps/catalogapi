@@ -19,6 +19,7 @@ __PACKAGE__->meta->setup(
         retail_price               => { type => 'scalar',  not_null => 1 },
         rank                       => { type => 'integer', not_null => 1 },
         name                       => { type => 'varchar', length   => 255, not_null => 1 },
+        supplier_reference_id      => { type => 'varchar', length   => 255, not_null => 1 },
         availability               => { type => 'varchar', length   => 255, not_null => 1 },
         description                => { type => 'text',    not_null => 1 },
         model                      => { type => 'varchar', length   => 255, not_null => 1 },
